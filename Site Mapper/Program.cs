@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Threading;
 
+//using System.Threading;
 /*
  * scan js and css for resources
- * * link(
- * * url(
  * 
  * multi-threading
  * 
@@ -52,16 +50,6 @@ namespace Site_Mapper
             externals = new List<string>();
 
         static string baseUrl;
-
-        static Thread 
-            mainThr,
-            secThr;
-        static ThreadStart secThrStrt;
-
-        static void secondaryThrInit(string url)
-        {
-            searchForUrl(url);
-        }
 
         static void Main()
         {
@@ -285,9 +273,14 @@ namespace Site_Mapper
 
                 if (!url.Contains("#"))
                 {
-                    // if secondary thread is clear, do this on it:
-                    // if not use current thread
-                    searchForUrl(format(url, false));
+                    if (url.Contains(baseUrl))
+                    {
+                        searchForUrl(format(url, false));
+                    }
+                    else
+                    {
+                        searchForUrl(format(baseUrl + url, false));
+                    }
                 }
             }
             else
