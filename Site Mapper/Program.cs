@@ -15,6 +15,7 @@ namespace Site_Mapper
 {
     class Program
     {
+        // List of extentions that represent webpages
         static readonly string[] 
             EXTS = {
             ".htm",
@@ -25,6 +26,7 @@ namespace Site_Mapper
             "#"
             },
 
+        // List of domain extensions
             TLDS = {
             ".com",
             ".uk",
@@ -43,23 +45,29 @@ namespace Site_Mapper
             ".gov.uk",
             ".ovh"
             };
-
+        
+        // Defining lists
         static List<string>
             urls = new List<string>(),
             resources = new List<string>(),
             externals = new List<string>();
 
+        // Core url, e.g. (domain.ext/)
         static string baseUrl;
 
+        // Main function
         static void Main()
         {
             Console.ForegroundColor = ConsoleColor.White;
             while (true)
             {
+                // Get base URL input
                 Console.Write("Base URL: ");
                 baseUrl = Console.ReadLine();
 
                 Console.WriteLine("Validating base URL...");
+
+                // Validating the base URL
 
                 baseUrl = baseUrl.Replace("https://", "");
                 baseUrl = baseUrl.Replace("http://", "");
@@ -92,8 +100,10 @@ namespace Site_Mapper
                 Console.WriteLine("Processing: " + baseUrl);
                 Console.WriteLine("Please wait, this may take a while! Working...\n");
 
+                // Start the crawling process
                 searchForUrl(baseUrl);
 
+                // Display results
                 Console.WriteLine("----------");
                 Console.WriteLine(baseUrl);
                 Console.WriteLine("----------\n");
@@ -128,12 +138,14 @@ namespace Site_Mapper
             Console.ReadKey();
         }
 
+        // Function to sort string array
         static string[] sort(string[] toSort)
         {
             Array.Sort(toSort, StringComparer.InvariantCulture);
             return toSort;
         }
 
+        // Function to format results
         static string format(string url, bool primary)
         {
             if (url == "")
@@ -188,6 +200,7 @@ namespace Site_Mapper
             }
         }
 
+        // Function to validate and add a URL, resource or external
         static void addUrl(string url)
         {
             if (url == "")
@@ -321,6 +334,7 @@ namespace Site_Mapper
             }
         }
 
+        // Function to search a page for links
         static void searchForUrl(string url)
         {
             string html = getHTML("https://" + url);
@@ -374,6 +388,7 @@ namespace Site_Mapper
             }
         }
 
+        // Funtion to get the raw text of a page
         static string getHTML(string url)
         {
             Console.WriteLine("Getting: " + url);
