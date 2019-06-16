@@ -5,7 +5,6 @@ using System.Net;
 /*
  * Subdomain support (dbarchive.ehsawyer.uk) 
  * scan js and css for resources?
- * alphabetical output
  * multi-threading
 */
 
@@ -98,21 +97,21 @@ namespace Site_Mapper
 
                 Console.WriteLine("Pages / Page Locations");
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                foreach (string curUrl in urls)
+                foreach (string curUrl in sort(urls.ToArray()))
                     Console.WriteLine("    " + curUrl);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-");
 
                 Console.WriteLine("Resources");
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
-                foreach (string curResource in resources)
+                foreach (string curResource in sort(resources.ToArray()))
                     Console.WriteLine("    " + curResource);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-");
 
                 Console.WriteLine("Externals");
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                foreach (string curExt in externals)
+                foreach (string curExt in sort(externals.ToArray()))
                     Console.WriteLine("    " + curExt);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-");
@@ -125,7 +124,8 @@ namespace Site_Mapper
 
         static string[] sort(string[] toSort)
         {
-            return null; // alphabetically sort
+            Array.Sort(toSort, StringComparer.InvariantCulture);
+            return toSort;
         }
 
         static string format(string url, bool primary)
@@ -272,6 +272,14 @@ namespace Site_Mapper
                         Console.ForegroundColor = ConsoleColor.White;
                         return;
                     }
+                }
+
+                if (!url.Contains(".") && !url.Contains(":"))
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Not A Resource, Abandoning: " + url + "\n");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    return;
                 }
 
                 resources.Add(format(url.Replace(baseUrl, ""), false));

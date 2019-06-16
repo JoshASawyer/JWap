@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Site Mapper\\Site Mapper\\Site Mapper.csproj": {}
+    "C:\\Users\\joshu\\Desktop\\Github Projects\\J-WAT\\Site Mapper\\Site Mapper.csproj": {}
   },
   "projects": {
-    "E:\\Site Mapper\\Site Mapper\\Site Mapper.csproj": {
+    "C:\\Users\\joshu\\Desktop\\Github Projects\\J-WAT\\Site Mapper\\Site Mapper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Site Mapper\\Site Mapper\\Site Mapper.csproj",
+        "projectUniqueName": "C:\\Users\\joshu\\Desktop\\Github Projects\\J-WAT\\Site Mapper\\Site Mapper.csproj",
         "projectName": "Site Mapper",
-        "projectPath": "E:\\Site Mapper\\Site Mapper\\Site Mapper.csproj",
+        "projectPath": "C:\\Users\\joshu\\Desktop\\Github Projects\\J-WAT\\Site Mapper\\Site Mapper.csproj",
         "packagesPath": "C:\\Users\\joshu\\.nuget\\packages\\",
-        "outputPath": "E:\\Site Mapper\\Site Mapper\\obj\\",
+        "outputPath": "C:\\Users\\joshu\\Desktop\\Github Projects\\J-WAT\\Site Mapper\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\",
