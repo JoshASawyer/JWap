@@ -86,7 +86,7 @@ namespace Site_Mapper
                     baseUrl = baseUrl.Remove(0);
                 }
                
-                if (getHTML("https://" + baseUrl) == null)
+                if (GetHtml("https://" + baseUrl) == null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Bad base URL...\n");
@@ -101,7 +101,7 @@ namespace Site_Mapper
                 Console.WriteLine("Please wait, this may take a while! Working...\n");
 
                 // Start the crawling process
-                searchForUrl(baseUrl);
+                SearchForUrl(baseUrl);
 
                 // Display results
                 Console.WriteLine("----------");
@@ -110,7 +110,7 @@ namespace Site_Mapper
 
                 Console.WriteLine("Pages / Page Locations");
                 Console.ForegroundColor = ConsoleColor.Cyan;
-                foreach (string curUrl in sort(urls.ToArray()))
+                foreach (string curUrl in Sort(urls.ToArray()))
                     Console.WriteLine("    " + curUrl);
 
                 Console.ForegroundColor = ConsoleColor.White;
@@ -118,7 +118,7 @@ namespace Site_Mapper
 
                 Console.WriteLine("Resources");
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
-                foreach (string curResource in sort(resources.ToArray()))
+                foreach (string curResource in Sort(resources.ToArray()))
                     Console.WriteLine("    " + curResource);
 
                 Console.ForegroundColor = ConsoleColor.White;
@@ -126,7 +126,7 @@ namespace Site_Mapper
 
                 Console.WriteLine("Externals");
                 Console.ForegroundColor = ConsoleColor.Magenta;
-                foreach (string curExt in sort(externals.ToArray()))
+                foreach (string curExt in Sort(externals.ToArray()))
                     Console.WriteLine("    " + curExt);
 
                 Console.ForegroundColor = ConsoleColor.White;
@@ -139,14 +139,14 @@ namespace Site_Mapper
         }
 
         // Function to sort string array
-        static string[] sort(string[] toSort)
+        static string[] Sort(string[] toSort)
         {
             Array.Sort(toSort, StringComparer.InvariantCulture);
             return toSort;
         }
 
         // Function to format results
-        static string format(string url, bool primary)
+        static string Format(string url, bool primary)
         {
             if (url == "")
             {
@@ -201,7 +201,7 @@ namespace Site_Mapper
         }
 
         // Function to validate and add a URL, resource or external
-        static void addUrl(string url)
+        static void AddUrl(string url)
         {
             if (url == "")
             {
@@ -214,7 +214,7 @@ namespace Site_Mapper
                 {
                     foreach (string ext in externals)
                     {
-                        if (format(url, false) == ext)
+                        if (Format(url, false) == ext)
                         {
                             Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
@@ -224,7 +224,7 @@ namespace Site_Mapper
                         }
                     }
 
-                    externals.Add(format(url, false));
+                    externals.Add(Format(url, false));
 
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Adding External: " + url + "\n");
@@ -261,7 +261,7 @@ namespace Site_Mapper
             {
                 foreach (string curUrl in urls)
                 {
-                    if (format(url.Replace(baseUrl, ""), false) == curUrl)
+                    if (Format(url.Replace(baseUrl, ""), false) == curUrl)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
@@ -273,11 +273,11 @@ namespace Site_Mapper
 
                 if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
                 {
-                    urls.Add(format(url.Replace(baseUrl, ""), false));
+                    urls.Add(Format(url.Replace(baseUrl, ""), false));
                 }
                 else
                 {
-                    urls.Add(format(url, false));
+                    urls.Add(Format(url, false));
                 }
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -288,11 +288,11 @@ namespace Site_Mapper
                 {
                     if (url.Contains(baseUrl))
                     {
-                        searchForUrl(format(url, false));
+                        SearchForUrl(Format(url, false));
                     }
                     else
                     {
-                        searchForUrl(format(baseUrl + url, false));
+                        SearchForUrl(Format(baseUrl + url, false));
                     }
                 }
             }
@@ -300,7 +300,7 @@ namespace Site_Mapper
             {
                 foreach (string curResrc in resources)
                 {
-                    if (format(url.Replace(baseUrl, ""), false) == curResrc)
+                    if (Format(url.Replace(baseUrl, ""), false) == curResrc)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
@@ -321,11 +321,11 @@ namespace Site_Mapper
 
                 if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
                 {
-                    resources.Add(format(url.Replace(baseUrl, ""), false));
+                    resources.Add(Format(url.Replace(baseUrl, ""), false));
                 }
                 else
                 {
-                    resources.Add(format(url, false));
+                    resources.Add(Format(url, false));
                 }
 
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -335,9 +335,9 @@ namespace Site_Mapper
         }
 
         // Function to search a page for links
-        static void searchForUrl(string url)
+        static void SearchForUrl(string url)
         {
-            string html = getHTML("https://" + url);
+            string html = GetHtml("https://" + url);
             if (html == null)
             {
                 return;
@@ -380,16 +380,16 @@ namespace Site_Mapper
 
                 Console.WriteLine("Found: " + content);
 
-                content = format(content, true);
+                content = Format(content, true);
 
-                addUrl(content);
+                AddUrl(content);
 
                 html = html.Remove(hrefPos, contentEnd - hrefPos);
             }
         }
 
         // Funtion to get the raw text of a page
-        static string getHTML(string url)
+        static string GetHtml(string url)
         {
             Console.WriteLine("Getting: " + url);
 
