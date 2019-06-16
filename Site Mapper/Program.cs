@@ -80,6 +80,7 @@ namespace Site_Mapper
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Bad base URL...\n");
                     Console.ForegroundColor = ConsoleColor.White;
+
                     continue;
                 }
 
@@ -99,6 +100,7 @@ namespace Site_Mapper
                 Console.ForegroundColor = ConsoleColor.Cyan;
                 foreach (string curUrl in sort(urls.ToArray()))
                     Console.WriteLine("    " + curUrl);
+
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-");
 
@@ -106,6 +108,7 @@ namespace Site_Mapper
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 foreach (string curResource in sort(resources.ToArray()))
                     Console.WriteLine("    " + curResource);
+
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-");
 
@@ -113,6 +116,7 @@ namespace Site_Mapper
                 Console.ForegroundColor = ConsoleColor.Magenta;
                 foreach (string curExt in sort(externals.ToArray()))
                     Console.WriteLine("    " + curExt);
+
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("-");
 
@@ -200,6 +204,7 @@ namespace Site_Mapper
                             Console.ForegroundColor = ConsoleColor.Red;
                             Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                             Console.ForegroundColor = ConsoleColor.White;
+
                             return;
                         }
                     }
@@ -209,6 +214,7 @@ namespace Site_Mapper
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Adding External: " + url + "\n");
                     Console.ForegroundColor = ConsoleColor.White;
+
 
                     return;
                 }
@@ -246,6 +252,7 @@ namespace Site_Mapper
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                         Console.ForegroundColor = ConsoleColor.White;
+
                         return;
                     }
                 }
@@ -270,6 +277,7 @@ namespace Site_Mapper
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                         Console.ForegroundColor = ConsoleColor.White;
+
                         return;
                     }
                 }
@@ -279,6 +287,7 @@ namespace Site_Mapper
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Not A Resource, Abandoning: " + url + "\n");
                     Console.ForegroundColor = ConsoleColor.White;
+
                     return;
                 }
 
