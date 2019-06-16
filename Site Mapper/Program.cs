@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading;
 
 /*
- * fix dupe bug, https://all4oneflyball.webs.com/
  * scan js and css for resources
+ * * link(
+ * * url(
+ * 
  * multi-threading
  * 
  * support for local files
@@ -50,6 +53,16 @@ namespace Site_Mapper
 
         static string baseUrl;
 
+        static Thread 
+            mainThr,
+            secThr;
+        static ThreadStart secThrStrt;
+
+        static void secondaryThrInit(string url)
+        {
+            searchForUrl(url);
+        }
+
         static void Main()
         {
             Console.ForegroundColor = ConsoleColor.White;
@@ -79,7 +92,7 @@ namespace Site_Mapper
                
                 if (getHTML("https://" + baseUrl) == null)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Bad base URL...\n");
                     Console.ForegroundColor = ConsoleColor.White;
 
@@ -106,7 +119,7 @@ namespace Site_Mapper
                 Console.WriteLine("-");
 
                 Console.WriteLine("Resources");
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
                 foreach (string curResource in sort(resources.ToArray()))
                     Console.WriteLine("    " + curResource);
 
@@ -202,7 +215,7 @@ namespace Site_Mapper
                     {
                         if (format(url, false) == ext)
                         {
-                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
                             Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                             Console.ForegroundColor = ConsoleColor.White;
 
@@ -249,7 +262,7 @@ namespace Site_Mapper
                 {
                     if (format(url.Replace(baseUrl, ""), false) == curUrl)
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
@@ -272,7 +285,9 @@ namespace Site_Mapper
 
                 if (!url.Contains("#"))
                 {
-                    searchForUrl(baseUrl + "/" + format(url, false));
+                    // if secondary thread is clear, do this on it:
+                    // if not use current thread
+                    searchForUrl(format(url, false));
                 }
             }
             else
@@ -281,7 +296,7 @@ namespace Site_Mapper
                 {
                     if (format(url.Replace(baseUrl, ""), false) == curResrc)
                     {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
@@ -291,7 +306,7 @@ namespace Site_Mapper
 
                 if (!url.Contains(".") && !url.Contains(":"))
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine("Not A Resource, Abandoning: " + url + "\n");
                     Console.ForegroundColor = ConsoleColor.White;
 
@@ -389,7 +404,7 @@ namespace Site_Mapper
                     catch
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Invalid: " + url + "\n(If duped url page was checking self)\n");
+                        Console.WriteLine("Invalid: " + url + "\n");
                         Console.ForegroundColor = ConsoleColor.White;
                         return null;
                     }
