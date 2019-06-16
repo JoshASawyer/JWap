@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 
 /*
- * Subdomain support (dbarchive.ehsawyer.uk) 
- * scan js and css for resources?
+ * fix dupe bug, https://all4oneflyball.webs.com/
+ * scan js and css for resources
  * multi-threading
+ * 
+ * support for local files
 */
 
 namespace Site_Mapper
@@ -77,7 +79,7 @@ namespace Site_Mapper
                
                 if (getHTML("https://" + baseUrl) == null)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Bad base URL...\n");
                     Console.ForegroundColor = ConsoleColor.White;
 
@@ -92,9 +94,8 @@ namespace Site_Mapper
                 searchForUrl(baseUrl);
 
                 Console.WriteLine("----------");
-                Console.WriteLine("SUMMARY OF");
                 Console.WriteLine(baseUrl);
-                Console.WriteLine("----------");
+                Console.WriteLine("----------\n");
 
                 Console.WriteLine("Pages / Page Locations");
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -140,7 +141,7 @@ namespace Site_Mapper
             }
 
             bool localResource = false;
-            if (url.Contains(baseUrl))
+            if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
             {
                 url = url.Replace(baseUrl, "");
                 localResource = true;
@@ -201,7 +202,7 @@ namespace Site_Mapper
                     {
                         if (format(url, false) == ext)
                         {
-                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.Yellow;
                             Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                             Console.ForegroundColor = ConsoleColor.White;
 
@@ -214,7 +215,6 @@ namespace Site_Mapper
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Adding External: " + url + "\n");
                     Console.ForegroundColor = ConsoleColor.White;
-
 
                     return;
                 }
@@ -249,7 +249,7 @@ namespace Site_Mapper
                 {
                     if (format(url.Replace(baseUrl, ""), false) == curUrl)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
@@ -257,7 +257,14 @@ namespace Site_Mapper
                     }
                 }
 
-                urls.Add(format(url.Replace(baseUrl, ""), false));
+                if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
+                {
+                    urls.Add(format(url.Replace(baseUrl, ""), false));
+                }
+                else
+                {
+                    urls.Add(format(url, false));
+                }
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Adding Page / Page Location: " + url + "\n");
@@ -274,7 +281,7 @@ namespace Site_Mapper
                 {
                     if (format(url.Replace(baseUrl, ""), false) == curResrc)
                     {
-                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.WriteLine("Dupe Found, Abandoning: " + url + "\n");
                         Console.ForegroundColor = ConsoleColor.White;
 
@@ -284,14 +291,21 @@ namespace Site_Mapper
 
                 if (!url.Contains(".") && !url.Contains(":"))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine("Not A Resource, Abandoning: " + url + "\n");
                     Console.ForegroundColor = ConsoleColor.White;
 
                     return;
                 }
 
-                resources.Add(format(url.Replace(baseUrl, ""), false));
+                if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
+                {
+                    resources.Add(format(url.Replace(baseUrl, ""), false));
+                }
+                else
+                {
+                    resources.Add(format(url, false));
+                }
 
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Adding Resource: " + url + "\n");
@@ -375,7 +389,7 @@ namespace Site_Mapper
                     catch
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Invalid: " + url);
+                        Console.WriteLine("Invalid: " + url + "\n(If duped url page was checking self)\n");
                         Console.ForegroundColor = ConsoleColor.White;
                         return null;
                     }
