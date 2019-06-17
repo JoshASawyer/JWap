@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading;
 
 /*
- * write output to log
+ * write output to logs/joshsawyerdev.txt : logs/ehsawyeruk.txt
  * multi-threading, for searching
 */
 
@@ -12,8 +12,8 @@ namespace Site_Mapper
 {
     class Program
     {
-        // List of extentions that represent webpages
-        static readonly string[] 
+        static readonly string[]
+            // List of extentions that represent webpages
             EXTS = {
             ".htm",
             ".html",
@@ -24,7 +24,7 @@ namespace Site_Mapper
             ".shtml"
             },
 
-        // List of domain extensions
+            // List of domain extensions
             TLDS = {
             ".com",
             ".uk",
@@ -56,7 +56,7 @@ namespace Site_Mapper
         static bool processComplete = false;
         static int seconds = 0;
 
-        // 2nd thread
+        // 2nd thread function
         static void timerThrInit()
         {
             while (true)
@@ -128,6 +128,7 @@ namespace Site_Mapper
                 // Start the crawling process
                 SearchForUrl(baseUrl);
 
+                // Abort 2nd thread
                 processComplete = true;
 
                 // Display results
