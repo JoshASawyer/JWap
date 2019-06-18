@@ -4,9 +4,16 @@ using System.Net;
 using System.Threading;
 
 /*
+ * fix formatting
  * write output to logs/joshsawyerdev.txt : logs/ehsawyeruk.txt
- * multi-threading, for searching
 */
+
+/*
+ * 1 thread - grab data
+ * 1 thread - process
+ * 
+ * once 1st thread grabbed all data, move to process
+ */
 
 namespace Site_Mapper
 {
@@ -21,7 +28,8 @@ namespace Site_Mapper
             ".asp",
             ".aspx",
             "#",
-            ".shtml"
+            ".shtml",
+            ".shtm"
             },
 
             // List of domain extensions
@@ -56,27 +64,15 @@ namespace Site_Mapper
         static bool processComplete = false;
         static int seconds = 0;
 
-        // 2nd thread function
-        static void timerThrInit()
-        {
-            while (true)
-            {
-                if (processComplete)
-                {
-                    return;
-                }
-
-                seconds++;
-                Console.Write("\rCrawling site... (" + seconds + "s)");
-
-                Thread.Sleep(1000);
-            }
-        }
-
         // Main function
         static void Main()
         {
-            Console.ForegroundColor = ConsoleColor.White;
+            CLI();
+        }
+
+        // Function for the command line interface
+        static void CLI()
+        {
             while (true)
             {
                 // Get base URL input
@@ -103,7 +99,7 @@ namespace Site_Mapper
                 {
                     baseUrl = baseUrl.Remove(0);
                 }
-               
+
                 if (GetHtml("https://" + baseUrl) == null)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
@@ -120,13 +116,8 @@ namespace Site_Mapper
 
                 Console.Write("Crawling site: 0s");
 
-                // Start timer thread
-                ThreadStart timerThrStrt = new ThreadStart(timerThrInit);
-                Thread timerThr = new Thread(timerThrStrt);
-                timerThr.Start();
-
-                // Start the crawling process
-                SearchForUrl(baseUrl);
+                // Starts the process
+                Start(baseUrl);
 
                 // Abort 2nd thread
                 processComplete = true;
@@ -165,27 +156,35 @@ namespace Site_Mapper
             Console.WriteLine("\nPress any key to end program...");
             Console.ReadKey();
         }
+        static void Start(string url)
+        {
+            // Start timer thread
+            ThreadStart timerThrStrt = new ThreadStart(timerThrInit);
+            Thread timerThr = new Thread(timerThrStrt);
+            timerThr.Start();
 
-        // Removes newlines
-        static string RNL(string content)
+            // Start the crawling process
+            SearchForUrl(url);
+
+            // Abort 2nd thread
+            processComplete = true;
+        }
+
+        // 2nd thread function
+        static void timerThrInit()
         {
             while (true)
             {
-                int nlIndex = content.IndexOf('\n');
-                if (nlIndex < 0)
+                if (processComplete)
                 {
-                    break;
+                    return;
                 }
-                content = content.Remove(nlIndex, 1);
-            }
-            return content;
-        }
 
-        // Function to sort string array
-        static string[] Sort(string[] toSort)
-        {
-            Array.Sort(toSort, StringComparer.InvariantCulture);
-            return toSort;
+                seconds++;
+                Console.Write("\rCrawling site... (" + seconds + "s)");
+
+                Thread.Sleep(1000);
+            }
         }
 
         // Function to format results
@@ -195,6 +194,8 @@ namespace Site_Mapper
             {
                 return "";
             }
+
+            //url = url.ToLower();
 
             bool localResource = false;
             if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
@@ -235,6 +236,64 @@ namespace Site_Mapper
             else
             {
                 return url;
+            }
+        }
+
+        // Function to search a page for links
+        static void SearchForUrl(string url)
+        {
+            string html = GetHtml("https://" + url);
+            if (html == null)
+            {
+                return;
+            }
+
+            while (true)
+            {
+                int hrefPos = html.IndexOf("href=");
+                char tag = html[hrefPos + 5];
+                int contentStart = hrefPos + 6;
+
+                if (hrefPos < 0)
+                {
+                    hrefPos = html.IndexOf("src=");
+                    tag = html[hrefPos + 4];
+                    contentStart = hrefPos + 5;
+
+                    if (hrefPos < 0)
+                    {
+                        break;
+                    }
+                }
+
+                if (html[contentStart] == tag)
+                {
+                    break;
+                }
+
+                int contentEnd = -1;
+                for (int i = contentStart; i < html.Length - 1; i++)
+                {
+                    if (html[i] == tag)
+                    {
+                        contentEnd = i;
+                        break;
+                    }
+                }
+
+                string content = html.Substring(contentStart, contentEnd - contentStart);
+
+                if (content.Contains("<script>") || content.Contains("</script>")
+                    || content.Contains("{") || content.Contains("}"))
+                {
+                    return;
+                }
+
+                content = Format(content);
+
+                AddUrl(content);
+
+                html = html.Remove(hrefPos, contentEnd - hrefPos);
             }
         }
 
@@ -347,64 +406,6 @@ namespace Site_Mapper
             }
         }
 
-        // Function to search a page for links
-        static void SearchForUrl(string url)
-        {
-            string html = GetHtml("https://" + url);
-            if (html == null)
-            {
-                return;
-            }
-
-            while (true)
-            {
-                int hrefPos = html.IndexOf("href=");
-                char tag = html[hrefPos + 5];
-                int contentStart = hrefPos + 6;
-
-                if (hrefPos < 0)
-                {
-                    hrefPos = html.IndexOf("src=");
-                    tag = html[hrefPos + 4];
-                    contentStart = hrefPos + 5;
-
-                    if (hrefPos < 0)
-                    {
-                        break;
-                    }
-                }
-
-                if (html[contentStart] == tag)
-                {
-                    break;
-                }
-
-                int contentEnd = -1;
-                for (int i = contentStart; i < html.Length - 1; i++)
-                {
-                    if (html[i] == tag)
-                    {
-                        contentEnd = i;
-                        break;
-                    }
-                }
-
-                string content = html.Substring(contentStart, contentEnd - contentStart);
-
-                if (content.Contains("<script>") || content.Contains("</script>")
-                    || content.Contains("{") || content.Contains("}"))
-                {
-                    return;
-                }
-
-                content = Format(content);
-
-                AddUrl(content);
-
-                html = html.Remove(hrefPos, contentEnd - hrefPos);
-            }
-        }
-
         // Funtion to get the raw text of a page
         static string GetHtml(string url)
         {
@@ -422,7 +423,7 @@ namespace Site_Mapper
                 {
                     try
                     {
-                        return new WebClient().DownloadString(url.Replace("https://", "www."));
+                        return new WebClient().DownloadString(url.Replace("https://", "http://www."));
                     }
                     catch
                     {
@@ -430,6 +431,29 @@ namespace Site_Mapper
                     }
                 }
             }
+        }
+
+        // Removes newlines
+        static string RNL(string content)
+        {
+            while (true)
+            {
+                int nlIndex = content.IndexOf('\n');
+                if (nlIndex < 0)
+                {
+                    break;
+                }
+
+                content = content.Remove(nlIndex, 1);
+            }
+            return content;
+        }
+
+        // Function to sort string array
+        static string[] Sort(string[] toSort)
+        {
+            Array.Sort(toSort, StringComparer.InvariantCulture);
+            return toSort;
         }
     }
 }
