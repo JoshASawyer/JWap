@@ -4,23 +4,16 @@ using System.Net;
 using System.Threading;
 
 /*
- * fix formatting
  * write output to logs/joshsawyerdev.txt : logs/ehsawyeruk.txt
+ * comments
+ * optimisation
 */
-
-/*
- * 1 thread - grab data
- * 1 thread - process
- * 
- * once 1st thread grabbed all data, move to process
- */
 
 namespace Site_Mapper
 {
     class Program
     {
         static readonly string[]
-            // List of extentions that represent webpages
             EXTS = {
             ".htm",
             ".html",
@@ -32,7 +25,6 @@ namespace Site_Mapper
             ".shtm"
             },
 
-            // List of domain extensions
             TLDS = {
             ".com",
             ".uk",
@@ -51,54 +43,33 @@ namespace Site_Mapper
             ".gov.uk",
             ".ovh"
             };
-        
-        // Defining lists
+
         static List<string>
             urls = new List<string>(),
             resources = new List<string>(),
             externals = new List<string>();
 
-        // Core url, e.g. (domain.ext/)
         static string baseUrl;
 
         static bool processComplete = false;
         static int seconds = 0;
+        static string SATEntryUrl = null;
 
-        // Main function
         static void Main()
         {
             CLI();
         }
 
-        // Function for the command line interface
         static void CLI()
         {
             while (true)
             {
-                // Get base URL input
                 Console.Write("Base URL: ");
                 baseUrl = Console.ReadLine();
 
                 Console.WriteLine("Validating base URL...");
 
-                // Validating the base URL
-
-                baseUrl = baseUrl.Replace("https://", "");
-                baseUrl = baseUrl.Replace("http://", "");
-
-                baseUrl = baseUrl.Replace("https:\\\\", "");
-                baseUrl = baseUrl.Replace("http:\\\\", "");
-
-                baseUrl = baseUrl.Replace("www.", "");
-
-                if (baseUrl[baseUrl.Length - 1] == '/')
-                {
-                    baseUrl = baseUrl.Remove(baseUrl.Length - 1);
-                }
-                if (baseUrl[0] == '/')
-                {
-                    baseUrl = baseUrl.Remove(0);
-                }
+                baseUrl = Format(baseUrl, true);
 
                 if (GetHtml("https://" + baseUrl) == null)
                 {
@@ -116,13 +87,10 @@ namespace Site_Mapper
 
                 Console.Write("Crawling site: 0s");
 
-                // Starts the process
-                Start(baseUrl);
+                StartProcess(baseUrl);
 
-                // Abort 2nd thread
                 processComplete = true;
 
-                // Display results
                 Console.WriteLine("\n----------");
                 Console.WriteLine(baseUrl);
                 Console.WriteLine("----------\n");
@@ -156,22 +124,22 @@ namespace Site_Mapper
             Console.WriteLine("\nPress any key to end program...");
             Console.ReadKey();
         }
-        static void Start(string url)
+        static void StartProcess(string url)
         {
-            // Start timer thread
-            ThreadStart timerThrStrt = new ThreadStart(timerThrInit);
+            ThreadStart timerThrStrt = new ThreadStart(TimerThrInit);
             Thread timerThr = new Thread(timerThrStrt);
             timerThr.Start();
 
-            // Start the crawling process
+            ThreadStart SATStart = new ThreadStart(SAThrInit);
+            Thread SAThr = new Thread(SATStart);
+            SAThr.Start();
+
             SearchForUrl(url);
 
-            // Abort 2nd thread
             processComplete = true;
         }
 
-        // 2nd thread function
-        static void timerThrInit()
+        static void TimerThrInit()
         {
             while (true)
             {
@@ -187,15 +155,49 @@ namespace Site_Mapper
             }
         }
 
-        // Function to format results
-        static string Format(string url)
+        static void SAThrInit()
+        {
+            while (true)
+            {
+                if (SATEntryUrl == null)
+                {
+                    continue;
+                }
+
+                SearchForUrl(SATEntryUrl);
+                SATEntryUrl = null;
+            }
+        }
+
+        static string Format(string url, bool init)
         {
             if (url == "")
             {
                 return "";
             }
 
-            //url = url.ToLower();
+            url = url.ToLower();
+
+            if (init)
+            {
+                url = url.Replace("https://", "");
+                url = url.Replace("http://", "");
+
+                url = url.Replace("https:\\\\", "");
+                url = url.Replace("http:\\\\", "");
+
+                url = url.Replace("www.", "");
+
+                if (url[url.Length - 1] == '/')
+                {
+                    url = url.Remove(url.Length - 1);
+                }
+                if (url[0] == '/')
+                {
+                    url = url.Remove(0);
+                }
+                return url;
+            }
 
             bool localResource = false;
             if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
@@ -239,7 +241,6 @@ namespace Site_Mapper
             }
         }
 
-        // Function to search a page for links
         static void SearchForUrl(string url)
         {
             string html = GetHtml("https://" + url);
@@ -289,7 +290,7 @@ namespace Site_Mapper
                     return;
                 }
 
-                content = Format(content);
+                content = Format(content, false);
 
                 AddUrl(content);
 
@@ -297,7 +298,6 @@ namespace Site_Mapper
             }
         }
 
-        // Function to validate and add a URL, resource or external
         static void AddUrl(string url)
         {
             if (url == "")
@@ -309,16 +309,16 @@ namespace Site_Mapper
             {
                 if (url.Contains(tld) && !url.Contains(baseUrl))
                 {
-                    foreach (string ext in externals)
+                    foreach (string ext in externals.ToArray())
                     {
-                        if (Format(url) == ext ||
+                        if (Format(url, false) == ext ||
                             url == ext)
                         {
                             return;
                         }
                     }
 
-                    externals.Add(Format(url));
+                    externals.Add(Format(url, false));
 
                     return;
                 }
@@ -349,9 +349,9 @@ namespace Site_Mapper
 
             if (isPage)
             {
-                foreach (string curUrl in urls)
+                foreach (string curUrl in urls.ToArray())
                 {
-                    if (Format(url.Replace(baseUrl, "")) == curUrl ||
+                    if (Format(url.Replace(baseUrl, ""), false) == curUrl ||
                         url == curUrl)
                     {
                         return;
@@ -360,30 +360,44 @@ namespace Site_Mapper
 
                 if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
                 {
-                    urls.Add(Format(url.Replace(baseUrl, "")));
+                    urls.Add(Format(url.Replace(baseUrl, ""), false));
                 }
                 else
                 {
-                    urls.Add(Format(url));
+                    urls.Add(Format(url, false));
                 }
 
                 if (!url.Contains("#"))
                 {
                     if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
                     {
-                        SearchForUrl(Format(url));
+                        if (SATEntryUrl == null)
+                        {
+                            SATEntryUrl = Format(url, false);
+                        }
+                        else
+                        {
+                            SearchForUrl(Format(url, false));
+                        }
                     }
                     else
                     {
-                        SearchForUrl(Format(baseUrl + url));
+                        if (SATEntryUrl == null)
+                        {
+                            SATEntryUrl = Format(baseUrl + url, false);
+                        }
+                        else
+                        {
+                            SearchForUrl(Format(baseUrl + url, false));
+                        }
                     }
                 }
             }
             else
             {
-                foreach (string curResrc in resources)
+                foreach (string curResrc in resources.ToArray())
                 {
-                    if (Format(url.Replace(baseUrl, "")) == curResrc ||
+                    if (Format(url.Replace(baseUrl, ""), false) == curResrc ||
                         url == curResrc)
                     {
                         return;
@@ -397,16 +411,15 @@ namespace Site_Mapper
 
                 if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
                 {
-                    resources.Add(Format(url.Replace(baseUrl, "")));
+                    resources.Add(Format(url.Replace(baseUrl, ""), false));
                 }
                 else
                 {
-                    resources.Add(Format(url));
+                    resources.Add(Format(url, false));
                 }
             }
         }
 
-        // Funtion to get the raw text of a page
         static string GetHtml(string url)
         {
             try
@@ -433,23 +446,6 @@ namespace Site_Mapper
             }
         }
 
-        // Removes newlines
-        static string RNL(string content)
-        {
-            while (true)
-            {
-                int nlIndex = content.IndexOf('\n');
-                if (nlIndex < 0)
-                {
-                    break;
-                }
-
-                content = content.Remove(nlIndex, 1);
-            }
-            return content;
-        }
-
-        // Function to sort string array
         static string[] Sort(string[] toSort)
         {
             Array.Sort(toSort, StringComparer.InvariantCulture);
