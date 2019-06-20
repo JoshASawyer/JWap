@@ -2,12 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Threading;
-
-/*
- * write output to logs/joshsawyerdev.txt : logs/ehsawyeruk.txt
- * comments
- * optimisation
-*/
+using System.IO;
 
 namespace Site_Mapper
 {
@@ -55,6 +50,9 @@ namespace Site_Mapper
         static int seconds = 0;
         static string SATEntryUrl = null;
 
+        static string path = null;
+        static string toLog = "";
+
         static void Main()
         {
             CLI();
@@ -62,6 +60,7 @@ namespace Site_Mapper
 
         static void CLI()
         {
+            Console.ForegroundColor = ConsoleColor.White;
             while (true)
             {
                 Console.Write("Base URL: ");
@@ -78,6 +77,16 @@ namespace Site_Mapper
                     Console.ForegroundColor = ConsoleColor.White;
 
                     continue;
+                }
+                path = GetFileName(baseUrl);
+
+                if (!Directory.Exists("logs/"))
+                {
+                    Directory.CreateDirectory("logs/");
+                }
+                if (File.Exists(path))
+                {
+                    File.Delete(path);
                 }
 
                 Console.WriteLine("Validated!\n");
@@ -121,9 +130,12 @@ namespace Site_Mapper
 
                 break;
             }
-            Console.WriteLine("\nPress any key to end program...");
-            Console.ReadKey();
+
+            Log(null);
+            SaveMap();
+            Exit();
         }
+
         static void StartProcess(string url)
         {
             ThreadStart timerThrStrt = new ThreadStart(TimerThrInit);
@@ -314,9 +326,12 @@ namespace Site_Mapper
                         if (Format(url, false) == ext ||
                             url == ext)
                         {
+                            Log(url + " | ABANDONING DUPE");
                             return;
                         }
                     }
+
+                    Log(url + " | ADDING AS EXTERNAL");
 
                     externals.Add(Format(url, false));
 
@@ -354,9 +369,12 @@ namespace Site_Mapper
                     if (Format(url.Replace(baseUrl, ""), false) == curUrl ||
                         url == curUrl)
                     {
+                        Log(url + " | ABANDONING DUPE");
                         return;
                     }
                 }
+
+                Log(url + " | ADDING AS PAGE");
 
                 if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
                 {
@@ -400,6 +418,7 @@ namespace Site_Mapper
                     if (Format(url.Replace(baseUrl, ""), false) == curResrc ||
                         url == curResrc)
                     {
+                        Log(url + " | ABANDONING DUPE");
                         return;
                     }
                 }
@@ -409,6 +428,8 @@ namespace Site_Mapper
                     return;
                 }
 
+                Log(url + " | ADDING AS RESOURCE");
+                
                 if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
                 {
                     resources.Add(Format(url.Replace(baseUrl, ""), false));
@@ -418,6 +439,47 @@ namespace Site_Mapper
                     resources.Add(Format(url, false));
                 }
             }
+        }
+
+        static void Log(string msg)
+        {
+            if (msg != null)
+            {
+                toLog += msg + "\n\n";
+                return;
+            }
+            Console.WriteLine("Finished, Logging...");
+            File.WriteAllTextAsync(path, toLog);
+            Console.WriteLine("Complete!");
+        }
+
+        static void SaveMap()
+        {
+            string textToSave = "";
+
+            textToSave += "----------\n";
+            textToSave += baseUrl + "\n";
+            textToSave += "----------\n\n";
+
+            textToSave += "Pages / Page Locations\n";
+            foreach (string curUrl in Sort(urls.ToArray()))
+                textToSave += "    " + curUrl + "\n";
+
+            textToSave += "-\n";
+
+            textToSave += "Resources\n";
+            foreach (string curResource in Sort(resources.ToArray()))
+                textToSave += "    " + curResource + "\n";
+
+            textToSave += "-\n";
+
+            textToSave += "Externals\n";
+            foreach (string curExt in Sort(externals.ToArray()))
+                textToSave += "    " + curExt + "\n";
+
+            textToSave += "\nLook in '" + path + "' for logs.";
+
+            File.WriteAllText("map_" + path.Replace("logs/", ""), textToSave);
         }
 
         static string GetHtml(string url)
@@ -440,6 +502,7 @@ namespace Site_Mapper
                     }
                     catch
                     {
+                        Log(url + " | ABANDONING INVALID LINK");
                         return null;
                     }
                 }
@@ -450,6 +513,29 @@ namespace Site_Mapper
         {
             Array.Sort(toSort, StringComparer.InvariantCulture);
             return toSort;
+        }
+
+        static string GetFileName(string url)
+        {
+            while (url.IndexOf('.') >= 0)
+            {
+                url = url.Remove(url.IndexOf('.'), 1);
+            }
+
+            int sIndex = url.IndexOf("/");
+            if (sIndex >= 0)
+            {
+                url = url.Remove(sIndex, url.Length - sIndex);
+            }
+
+            return "logs/" + url + ".txt";
+        }
+
+        static void Exit()
+        {
+            Console.WriteLine("\nPress any key to end program...");
+            Console.ReadKey();
+            Environment.Exit(1);
         }
     }
 }
