@@ -1,0 +1,32 @@
+mystyle.css | ADDING AS RESOURCE
+
+w3.css | ADDING AS RESOURCE
+
+fam.css | ADDING AS RESOURCE
+
+gc.css | ADDING AS RESOURCE
+
+joshsawyer.dev/#home | ADDING AS PAGE
+
+javascript:void(0) | ADDING AS RESOURCE
+
+github.com/joshsawyer | ADDING AS EXTERNAL
+
+github.com/joshsawyer/j-launcher | ADDING AS EXTERNAL
+
+github.com/joshsawyer/file-handler | ADDING AS EXTERNAL
+
+github.com/joshsawyer/jdtb | ADDING AS EXTERNAL
+
+github.com/joshsawyer/p33r-pressure | ADDING AS EXTERNAL
+
+scripts.js | ADDING AS RESOURCE
+
+images/jlp.jpg | ADDING AS RESOURCE
+
+images/fh.jpg | ADDING AS RESOURCE
+
+images/jdtb.jpg | ADDING AS RESOURCE
+
+images/p33p.jpg | ADDING AS RESOURCE
+
