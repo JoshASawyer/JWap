@@ -7,7 +7,7 @@ using System.IO;
 
 /* 
  * Author: Josh Sawyer
- * Date Last Edited: 20/06/19 @ 22:10
+ * Date Last Edited: 21/06/19 @ 17:26
  * 
  * Project Definition: A collection of scripts and programs used to
  * analyze websites. Currently only the Web Mapper is functional
@@ -79,8 +79,35 @@ namespace Site_Mapper
         // Main method
         static void Main()
         {
-            // Start the command line interface
-            CLI();
+            // Used to catch any errors and log them
+            try
+            {
+                // Start the command line interface
+                CLI();
+            }
+            // Catch any exception and store the value
+            catch (Exception e)
+            {
+                // Used to stop all threads except for this main one
+                processComplete = true;
+
+                // Print the error to console in red and asks user to send it to the developer (me)
+                Console.ForegroundColor = ConsoleColor.Red;
+                // Prints the message
+                Console.WriteLine("\nERROR CAUGHT:\n" + e + "\nPlease send your log file to github.com/JoshSawyer");
+                // Resets console colour
+                Console.ForegroundColor = ConsoleColor.White;
+
+                // Log the error
+                Log(e + " | ERROR THROWN");
+                // Save the logs to the log file
+                Log();
+
+                // Exit the program
+                Exit();
+                // Ensure that no more code runs by returning out of the Main method
+                return;
+            }
         }
 
         // Command Line Interface method
@@ -233,6 +260,11 @@ namespace Site_Mapper
             // Run infinately, until program closes
             while (true)
             {
+                // If processComplete is true return out of the thread function
+                if (processComplete)
+                {
+                    return;
+                }
                 // If no knew url for this thread, keep waiting
                 if (SATEntryUrl == null)
                 {
@@ -389,8 +421,10 @@ namespace Site_Mapper
                 string content = html.Substring(contentStart, contentEnd - contentStart);
 
                 // If the content seems to be JavaScript (JS) then break out of loop
-                if (content.Contains("<script>") || content.Contains("</script>")
-                    || content.Contains("{") || content.Contains("}"))
+                if (content.Contains("<script>") 
+                    || content.Contains("</script>")
+                    || content.Contains("{")
+                    || content.Contains("}"))
                 {
                     return;
                 }
@@ -425,8 +459,8 @@ namespace Site_Mapper
                     foreach (string ext in externals.ToArray())
                     {
                         // If the URL or the formatted URL is already present do this
-                        if (Format(url, false) == ext ||
-                            url == ext)
+                        if (Format(url, false) == ext 
+                            || url == ext)
                         {
                             // Log and return
                             Log(url + " | ABANDONING DUPE");
@@ -436,7 +470,7 @@ namespace Site_Mapper
 
                     // Log the addition of the current URL as an external
                     Log(url + " | ADDING AS EXTERNAL");
-                    
+
                     // Add to the externals array
                     externals.Add(Format(url, false));
 
@@ -467,7 +501,8 @@ namespace Site_Mapper
                     break;
                 }
                 // If URL has the structure of a redirected page, e.g. website.com/mypage/, its a page,
-                else if (url[i] == '/' || url[i] == '\\')
+                else if (url[i] == '/'
+                    || url[i] == '\\')
                 {
                     // Document that the current URL is a page
                     isPage = true;
@@ -482,8 +517,8 @@ namespace Site_Mapper
                 foreach (string curUrl in urls.ToArray())
                 {
                     // If the current URL is a duplicate do this
-                    if (Format(url.Replace(baseUrl, ""), false) == curUrl ||
-                        url == curUrl)
+                    if (Format(url.Replace(baseUrl, ""), false) == curUrl 
+                        || url == curUrl)
                     {
                         // Log and return
                         Log(url + " | ABANDONING DUPE");
@@ -495,7 +530,8 @@ namespace Site_Mapper
                 Log(url + " | ADDING AS PAGE");
 
                 // If the base URL is present at the start or the url doesn't contain the base URL
-                if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
+                if (url.IndexOf(baseUrl) == 0 
+                    || !url.Contains(baseUrl))
                 {
                     // Format and add without the base url
                     urls.Add(Format(url.Replace(baseUrl, ""), false));
@@ -507,8 +543,8 @@ namespace Site_Mapper
                     urls.Add(Format(url, false));
                 }
 
-                // If the page is not a page location (on same page as something else)
-                if (!url.Contains("#") && url.Contains(baseUrl))
+                // If the page is not a page location (on the same page as another link)
+                if (!url.Contains("#")) // or url contains # and the base page ISNT a dupe                                                                  ////
                 {
                     // If the current URL contains the base URL at the start do this
                     if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
@@ -551,8 +587,8 @@ namespace Site_Mapper
                 foreach (string curResrc in resources.ToArray())
                 {
                     // If formatted URL or plain URL is already documented, ignore it
-                    if (Format(url.Replace(baseUrl, ""), false) == curResrc ||
-                        url == curResrc)
+                    if (Format(url.Replace(baseUrl, ""), false) == curResrc 
+                        || url == curResrc)
                     {
                         // Log and return
                         Log(url + " | ABANDONING DUPE");
@@ -570,7 +606,8 @@ namespace Site_Mapper
                 Log(url + " | ADDING AS RESOURCE");
 
                 // If the base URL is present at the start or the url doesn't contain the base URL
-                if (url.IndexOf(baseUrl) == 0 || !url.Contains(baseUrl))
+                if (url.IndexOf(baseUrl) == 0 
+                    || !url.Contains(baseUrl))
                 {
                     // Format and add without the base url
                     resources.Add(Format(url.Replace(baseUrl, ""), false));
@@ -702,7 +739,7 @@ namespace Site_Mapper
             Console.WriteLine("\nPress any key to end program...");
             // Read next key input
             Console.ReadKey();
-            // Exit the program
+            // Exit the program (OBSOLETE: Was used to force close threads, not needed as threads close automatically)
             Environment.Exit(1);
         }
     }

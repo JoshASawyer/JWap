@@ -1,0 +1,21 @@
+mystyle.css | ADDING AS RESOURCE
+
+w3.css | ADDING AS RESOURCE
+
+fam.css | ADDING AS RESOURCE
+
+gc.css | ADDING AS RESOURCE
+
+joshsawyer.dev/#home | ADDING AS PAGE
+
+javascript:void(0) | ADDING AS RESOURCE
+
+github.com/joshsawyer | ADDING AS EXTERNAL
+
+System.Exception: Exception of type 'System.Exception' was thrown.
+   at Site_Mapper.Program.AddUrl(String url) in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 469
+   at Site_Mapper.Program.SearchForUrl(String url) in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 424
+   at Site_Mapper.Program.StartProcess(String url) in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 222
+   at Site_Mapper.Program.CLI() in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 160
+   at Site_Mapper.Program.Main() in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 85 | ERROR THROWN
+

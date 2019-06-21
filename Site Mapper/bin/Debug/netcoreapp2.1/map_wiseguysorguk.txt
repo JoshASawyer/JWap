@@ -1,0 +1,50 @@
+----------
+wiseguys.org.uk
+----------
+
+Pages / Page Locations
+    about.htm
+    complain.htm
+    consumers/index.htm
+    contact.htm
+    downloads.htm
+    health-living.htm
+    help.htm
+    index.htm
+    keeping.htm
+    links.htm
+    resources.htm
+    resources.htm#ks1
+    resources.htm#ks2
+    resources.htm#ks3
+    resources.htm#ks4
+    scammed.htm
+    teachers/index.htm
+    useful_contacts.htm
+    utilities.htm
+    your-money.htm
+    your-rights.htm
+-
+Resources
+    apple-touch-icon.png
+    consumers/style.css
+    favicon-16x16.png
+    favicon-32x32.png
+    javascript:window.print()
+    manifest.json
+    pdf_downloads/wiseguys%20easy%20read%20about%20us.pdf
+    scripts/target_blank.js
+    style.css
+-
+Externals
+    birmingham.gov.uk
+    eastsussex.gov.uk
+    eastsussex.gov.uk/business/tradingstandards
+    fatpromotions.co.uk
+    get.adobe.com/uk/reader
+    mailto:wise.guys@eastsussex.gov.uk
+    mailto:wise.guys@eastsussex.gov.uk;louise.baxter@eastsussex.gov.uk
+    tradingstandards.gov.uk/brighton-hove
+    tradingstandards.gov.uk/milton-keynes
+
+Look in 'logs/wiseguysorguk.txt' for logs.

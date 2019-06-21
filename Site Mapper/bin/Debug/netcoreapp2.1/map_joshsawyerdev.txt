@@ -1,0 +1,27 @@
+----------
+joshsawyer.dev
+----------
+
+Pages / Page Locations
+    #home
+-
+Resources
+    fam.css
+    gc.css
+    images/fh.jpg
+    images/jdtb.jpg
+    images/jlp.jpg
+    images/p33p.jpg
+    javascript:void(0)
+    mystyle.css
+    scripts.js
+    w3.css
+-
+Externals
+    github.com/joshsawyer
+    github.com/joshsawyer/file-handler
+    github.com/joshsawyer/jdtb
+    github.com/joshsawyer/j-launcher
+    github.com/joshsawyer/p33r-pressure
+
+Look in 'logs/joshsawyerdev.txt' for logs.

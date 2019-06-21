@@ -1,0 +1,154 @@
+consumers/style.css | ADDING AS RESOURCE
+
+apple-touch-icon.png | ADDING AS RESOURCE
+
+favicon-32x32.png | ADDING AS RESOURCE
+
+favicon-16x16.png | ADDING AS RESOURCE
+
+manifest.json | ADDING AS RESOURCE
+
+teachers/index.htm | ADDING AS PAGE
+
+consumers/index.htm | ADDING AS PAGE
+
+style.css | ADDING AS RESOURCE
+
+apple-touch-icon.png | ABANDONING DUPE
+
+favicon-32x32.png | ABANDONING DUPE
+
+favicon-16x16.png | ABANDONING DUPE
+
+manifest.json | ABANDONING DUPE
+
+index.htm | ADDING AS PAGE
+
+style.css | ABANDONING DUPE
+
+apple-touch-icon.png | ABANDONING DUPE
+
+favicon-32x32.png | ABANDONING DUPE
+
+favicon-16x16.png | ABANDONING DUPE
+
+manifest.json | ABANDONING DUPE
+
+index.htm | ABANDONING DUPE
+
+resources.htm | ADDING AS PAGE
+
+consumers/style.css | ABANDONING DUPE
+
+apple-touch-icon.png | ABANDONING DUPE
+
+favicon-32x32.png | ABANDONING DUPE
+
+favicon-16x16.png | ABANDONING DUPE
+
+manifest.json | ABANDONING DUPE
+
+teachers/index.htm | ABANDONING DUPE
+
+consumers/index.htm | ABANDONING DUPE
+
+fatpromotions.co.uk | ADDING AS EXTERNAL
+
+downloads.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/resources.htm | ABANDONING INVALID LINK
+
+resources.htm#ks1 | ADDING AS PAGE
+
+resources.htm#ks2 | ADDING AS PAGE
+
+resources.htm#ks3 | ADDING AS PAGE
+
+resources.htm#ks4 | ADDING AS PAGE
+
+links.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/downloads.htm | ABANDONING INVALID LINK
+
+about.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/links.htm | ABANDONING INVALID LINK
+
+contact.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/about.htm | ABANDONING INVALID LINK
+
+help.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/contact.htm | ABANDONING INVALID LINK
+
+eastsussex.gov.uk/business/tradingstandards | ADDING AS EXTERNAL
+
+tradingstandards.gov.uk/brighton-hove | ADDING AS EXTERNAL
+
+tradingstandards.gov.uk/milton-keynes | ADDING AS EXTERNAL
+
+birmingham.gov.uk | ADDING AS EXTERNAL
+
+mailto:wise.guys@eastsussex.gov.uk | ADDING AS EXTERNAL
+
+fatpromotions.co.uk | ABANDONING DUPE
+
+about.htm | ABANDONING DUPE
+
+help.htm | ABANDONING DUPE
+
+eastsussex.gov.uk | ADDING AS EXTERNAL
+
+https://wiseguys.org.uk/help.htm | ABANDONING INVALID LINK
+
+contact.htm | ABANDONING DUPE
+
+useful_contacts.htm | ADDING AS PAGE
+
+mailto:wise.guys@eastsussex.gov.uk;louise.baxter@eastsussex.gov.uk | ADDING AS EXTERNAL
+
+pdf_downloads/wiseguys%20easy%20read%20about%20us.pdf | ADDING AS RESOURCE
+
+javascript:window.print() | ADDING AS RESOURCE
+
+get.adobe.com/uk/reader | ADDING AS EXTERNAL
+
+your-rights.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/useful_contacts.htm | ABANDONING INVALID LINK
+
+https://wiseguys.org.uk/your-rights.htm | ABANDONING INVALID LINK
+
+health-living.htm | ADDING AS PAGE
+
+your-money.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/health-living.htm | ABANDONING INVALID LINK
+
+https://wiseguys.org.uk/your-money.htm | ABANDONING INVALID LINK
+
+scammed.htm | ADDING AS PAGE
+
+utilities.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/utilities.htm | ABANDONING INVALID LINK
+
+keeping.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/scammed.htm | ABANDONING INVALID LINK
+
+https://wiseguys.org.uk/keeping.htm | ABANDONING INVALID LINK
+
+complain.htm | ADDING AS PAGE
+
+mailto:wise.guys@eastsussex.gov.uk | ABANDONING DUPE
+
+eastsussex.gov.uk | ABANDONING DUPE
+
+index.htm | ABANDONING DUPE
+
+scripts/target_blank.js | ADDING AS RESOURCE
+
+fatpromotions.co.uk | ABANDONING DUPE
+
