@@ -7,7 +7,7 @@ using System.IO;
 
 /* 
  * Author: Josh Sawyer
- * Date Last Edited: 21/06/19 @ 17:26
+ * Date Last Edited: 21/06/19 @ 20:52
  * 
  * Project Definition: A collection of scripts and programs used to
  * analyze websites. Currently only the Web Mapper is functional
@@ -282,7 +282,8 @@ namespace Site_Mapper
         static string Format(string url, bool init)
         {
             // If URL is nothing, return nothing
-            if (url == "")
+            if (url == ""
+                || url == null)
             {
                 return "";
             }
@@ -444,7 +445,8 @@ namespace Site_Mapper
         static void AddUrl(string url)
         {
             // If url is nothing, return
-            if (url == "")
+            if (url == ""
+                || url == null)
             {
                 return;
             }
@@ -501,7 +503,7 @@ namespace Site_Mapper
                     break;
                 }
                 // If URL has the structure of a redirected page, e.g. website.com/mypage/, its a page,
-                else if (url[i] == '/'
+                else if (url[i] == '/' 
                     || url[i] == '\\')
                 {
                     // Document that the current URL is a page
@@ -543,9 +545,46 @@ namespace Site_Mapper
                     urls.Add(Format(url, false));
                 }
 
-                // If the page is not a page location (on the same page as another link)
-                if (!url.Contains("#")) // or url contains # and the base page ISNT a dupe                                                                  ////
+                // Find the position of the first '/'
+                int firstSlashPos = -1;
+                for (int i = url.Length - 1; i >= 0; i--)
                 {
+                    // When found do this
+                    if (url[i] == '/')
+                    {
+                        // Store the position and move on
+                        firstSlashPos = i;
+                        break;
+                    }
+                }
+
+                // If firstSlashPos is found then strippedUrl becomes the url without the last segment
+                string strippedUrl = null;
+                // Otherwise strippedUrl stays null
+                if (firstSlashPos != -1)
+                {
+                    strippedUrl = url.Substring(0, url.Length - firstSlashPos);
+                }
+
+                // If the page is not a page location or strippedUrl is not null
+                if (!url.Contains("#")
+                    || strippedUrl != null)
+                {
+                    // If strippedUrl has a value
+                    if (strippedUrl != null)
+                    {
+                        // Check for duplicate
+                        foreach (string page in urls.ToArray())
+                        {
+                            // If the formatted or plain version of strippedUrl is already stored as a page, return
+                            if (Format(strippedUrl, false) == page
+                                || strippedUrl == page)
+                            {
+                                return;
+                            }
+                        }
+                    }
+
                     // If the current URL contains the base URL at the start do this
                     if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
                     {
@@ -702,7 +741,7 @@ namespace Site_Mapper
                     }
                     catch
                     {
-                        // If page is unreachable, log and return
+                        // If page is unreachable, log and return null
                         Log(url + " | ABANDONING INVALID LINK");
                         return null;
                     }

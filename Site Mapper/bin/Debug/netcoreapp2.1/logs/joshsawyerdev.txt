@@ -12,10 +12,21 @@ javascript:void(0) | ADDING AS RESOURCE
 
 github.com/joshsawyer | ADDING AS EXTERNAL
 
-System.Exception: Exception of type 'System.Exception' was thrown.
-   at Site_Mapper.Program.AddUrl(String url) in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 469
-   at Site_Mapper.Program.SearchForUrl(String url) in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 424
-   at Site_Mapper.Program.StartProcess(String url) in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 222
-   at Site_Mapper.Program.CLI() in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 160
-   at Site_Mapper.Program.Main() in C:\Users\joshu\Desktop\Github Projects\J-WAT\Site Mapper\Program.cs:line 85 | ERROR THROWN
+github.com/joshsawyer/j-launcher | ADDING AS EXTERNAL
+
+github.com/joshsawyer/file-handler | ADDING AS EXTERNAL
+
+github.com/joshsawyer/jdtb | ADDING AS EXTERNAL
+
+github.com/joshsawyer/p33r-pressure | ADDING AS EXTERNAL
+
+scripts.js | ADDING AS RESOURCE
+
+images/jlp.jpg | ADDING AS RESOURCE
+
+images/fh.jpg | ADDING AS RESOURCE
+
+images/jdtb.jpg | ADDING AS RESOURCE
+
+images/p33p.jpg | ADDING AS RESOURCE
 
