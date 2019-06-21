@@ -798,6 +798,12 @@ namespace Site_Mapper
             return "logs/" + url + ".txt";
         }
 
+        // Method to download the site and resources
+        static void Download()
+        {
+
+        }
+
         // Method to exit the program peacefully
         static void Exit()
         {
