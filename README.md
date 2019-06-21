@@ -1,2 +1,2 @@
-# Josh's Web Analysis Tools (J;WAT)
+# JWap
 A collection of tools used to analyze websites -- documentation soon to come
