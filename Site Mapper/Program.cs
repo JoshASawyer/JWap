@@ -753,7 +753,34 @@ namespace Site_Mapper
         static string[] Sort(string[] toSort)
         {
             // Sort array
-            Array.Sort(toSort, StringComparer.InvariantCulture);
+            for (int i = 0; i < toSort.Length - 1; i++)
+            {
+                // Variable to store whether an iteration ran without changing the array
+                bool cleanRun = true;
+
+                // Go through the array
+                for (int t = 0; t < toSort.Length - 1; t++)
+                {
+                    // If the second result is before the first result alphabetically do this
+                    if (string.Compare(toSort[t], toSort[t + 1]) > 0)
+                    {
+                        // Switch toSort[t] with toSort[t + 1]
+                        string temp = toSort[t];
+                        toSort[t] = toSort[t + 1];
+                        toSort[t + 1] = temp;
+
+                        // If a swap has been made, not a clean run, cleanRun = false
+                        cleanRun = false;
+                    }
+                }
+
+                // If a clean run has been made, no more iterations needed, exit
+                if (cleanRun)
+                {
+                    break;
+                }
+            }
+
             // Return new array
             return toSort;
         }
