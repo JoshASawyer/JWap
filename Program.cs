@@ -14,8 +14,6 @@ using System.IO;
  * and present.
 */
 
-// TODO switch to using Abort() on threads
-
 namespace JWap
 {
     class Program
@@ -68,8 +66,6 @@ namespace JWap
 
         // Static boolean to store whether the process is complete or not
         static bool processComplete = false;
-        // Static integer to store how many seconds have passed
-        static int seconds = 0;
         // Static string variable to store the next link to crawl
         static string SATEntryUrl = null;
 
@@ -165,9 +161,6 @@ namespace JWap
             Console.WriteLine("Processing: " + baseUrl);
             Console.WriteLine("Please wait, this may take a while!\n");
 
-            // Writes starting message for timer thread (see the TimerThrInit() function)
-            Console.Write("Crawling site: 0s");
-
             // Calls StartProcess() on the base URL, starting the mapper
             StartProcess(baseUrl);
 
@@ -237,22 +230,27 @@ namespace JWap
         // (MULTI-THREADING) Timer thread initiation method
         static void TimerThrInit()
         {
+            // Integer to store how many seconds have passed
+            int seconds = 0;
             // Until the processing is done infinitely do this
             while (true)
             {
                 // If processComplete is true return out of the thread function
                 if (processComplete)
                 {
+                    // Aborts the current thread
+                    Thread.CurrentThread.Abort();
+                    // Makes sure that thread isn't running by exiting out of function
                     return;
                 }
 
-                // Seconds goes up by 1
-                seconds++;
                 // Rewrite the line to show current amount of seconds
                 Console.Write("\rCrawling site... (" + seconds + "s)");
 
                 // Pause the thread for 1 second
                 Thread.Sleep(1000);
+                // Seconds goes up by 1
+                seconds++;
             }
         }
 
@@ -265,6 +263,9 @@ namespace JWap
                 // If processComplete is true return out of the thread function
                 if (processComplete)
                 {
+                    // Aborts the current thread
+                    Thread.CurrentThread.Abort();
+                    // Makes sure that thread isn't running by exiting out of function
                     return;
                 }
                 // If no knew url for this thread, keep waiting

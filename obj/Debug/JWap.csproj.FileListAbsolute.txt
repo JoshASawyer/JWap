@@ -5,3 +5,10 @@ C:\Users\joshu\Desktop\JWap\bin\Debug\JWap.exe
 C:\Users\joshu\Desktop\JWap\bin\Debug\JWap.pdb
 C:\Users\joshu\Desktop\JWap\obj\Debug\JWap.exe
 C:\Users\joshu\Desktop\JWap\obj\Debug\JWap.pdb
+C:\Users\joshu\Desktop\Github Projects\JWap\bin\Debug\JWap.exe.config
+C:\Users\joshu\Desktop\Github Projects\JWap\bin\Debug\JWap.exe
+C:\Users\joshu\Desktop\Github Projects\JWap\bin\Debug\JWap.pdb
+C:\Users\joshu\Desktop\Github Projects\JWap\obj\Debug\JWap.csprojAssemblyReference.cache
+C:\Users\joshu\Desktop\Github Projects\JWap\obj\Debug\JWap.csproj.CoreCompileInputs.cache
+C:\Users\joshu\Desktop\Github Projects\JWap\obj\Debug\JWap.exe
+C:\Users\joshu\Desktop\Github Projects\JWap\obj\Debug\JWap.pdb
