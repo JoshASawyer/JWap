@@ -7,7 +7,7 @@ using System.IO;
 
 /* 
  * Author: Josh Sawyer
- * Date Last Edited: 22/06/19 @ 12:26
+ * Date Last Edited: 22/06/19 @ 15:30
  * 
  * Project Definition: A collection of scripts and programs used to
  * analyze websites. Currently only the Web Mapper is functional
@@ -113,11 +113,18 @@ namespace JWap
         {
             // Change CLI text colour to white
             Console.ForegroundColor = ConsoleColor.White;
+
+            // Print out the title of the program and an MOTD
+            Console.WriteLine("{--------------------------}");
+            Console.WriteLine("{-----------JWap-----------}");
+            Console.WriteLine("{--------------------------}");
+            Console.WriteLine("This program is currently in development...\n");
+
             // While loop for the getting of a valid base URL
             while (true)
             {
                 // Ask for input
-                Console.Write("Base URL: ");
+                Console.Write("Enter URL >: ");
                 baseUrl = Console.ReadLine();
 
                 Console.WriteLine("Validating base URL...");
@@ -204,8 +211,38 @@ namespace JWap
 
             // Log results to logs/--------.txt
             Log();
-            // Save the map to a local file
-            SaveMap();
+
+            // Loop to get whether the user wants to save the results
+            while (true)
+            {
+                // Requests user input
+                Console.WriteLine("\nWould you like to save these results to a file? (Y/N) >: ");
+                // Read in character and convert to lower case
+                char answer = Convert.ToChar(Console.Read());
+                answer = char.ToLower(answer);
+
+                // If the user wants to save, save
+                if (answer == 'y')
+                {
+                    // Notify the user of the saving of the results
+                    Console.WriteLine("\nSaving results in " + Directory.GetCurrentDirectory());
+                    // Save the map to a local file, break out of loop
+                    SaveMap();
+                    break;
+                }
+                // If the user doesn't want to save, dont save
+                else if (answer == 'n')
+                {
+                    // Break out of loop
+                    break;
+                }
+                // Otherwise
+                else
+                {
+                    // Notify the user of invalid input
+                    Console.WriteLine("Please enter Y or N...");
+                }
+            }
             // Exit the program peacefully
             Exit();
         }
@@ -811,7 +848,7 @@ namespace JWap
         static void Exit()
         {
             // Prompt user to enter any key to end the program
-            Console.WriteLine("\nPress any key to end program...");
+            Console.Write("\nPRESS ANY KEY TO END PROGRAM...");
             // Read next key input
             Console.ReadKey();
             // Exit the program (OBSOLETE: Was used to force close threads, not needed as threads close automatically)
