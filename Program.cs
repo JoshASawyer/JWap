@@ -1,13 +1,17 @@
-﻿// Import modules used in this program
+﻿// Basic module
 using System;
+// Module being used for List<>'s
 using System.Collections.Generic;
+// Module being used for GetHTML()
 using System.Net;
+// Module being used for multi-threading
 using System.Threading;
+// Module for file output
 using System.IO;
 
 /* 
  * Author: Josh Sawyer
- * Date Last Edited: 22/06/19 @ 15:30
+ * Date Last Edited: 22/06/19 @ 22:32
  * 
  * Project Definition: A collection of scripts and programs used to
  * analyze websites. Currently only the Web Mapper is functional
@@ -59,7 +63,9 @@ namespace JWap
             // To store all resources that are found
             resources = new List<string>(),
             // To store all external links that are found
-            externals = new List<string>();
+            externals = new List<string>(),
+            // To store SEO errors on analysis
+            seoErrors = new List<string>();
 
         // Static string to store the base url, e.g. https://google.com
         static string baseUrl;
@@ -146,8 +152,9 @@ namespace JWap
                 // Break out of while loop if input is valid
                 break;
             }
-            // Now that base URL is got, construct the path to the log file
+            // Now that base URL is got, construct the path to the log file, and add it to urls list
             path = GetFileName(baseUrl);
+            urls.Add(baseUrl);
 
             // If the logs/ folder doesn't exist, create it
             if (!Directory.Exists("logs/"))
@@ -216,16 +223,16 @@ namespace JWap
             while (true)
             {
                 // Requests user input
-                Console.WriteLine("\nWould you like to save these results to a file? (Y/N) >: ");
+                Console.Write("\nWould you like to save these results alongside an SEO report? (Y/N) >: ");
                 // Read in character and convert to lower case
-                char answer = Convert.ToChar(Console.Read());
+                char answer = Convert.ToChar(Console.ReadLine()[0]);
                 answer = char.ToLower(answer);
 
                 // If the user wants to save, save
                 if (answer == 'y')
                 {
                     // Notify the user of the saving of the results
-                    Console.WriteLine("\nSaving results in " + Directory.GetCurrentDirectory());
+                    Console.WriteLine("\nSaving results and report in " + Directory.GetCurrentDirectory());
                     // Save the map to a local file, break out of loop
                     SaveMap();
                     break;
@@ -240,7 +247,8 @@ namespace JWap
                 else
                 {
                     // Notify the user of invalid input
-                    Console.WriteLine("Please enter Y or N...");
+                    Console.WriteLine("\nPlease enter Y or N...\n");
+                    Thread.Sleep(500);
                 }
             }
             // Exit the program peacefully
@@ -305,7 +313,7 @@ namespace JWap
                     // Makes sure that thread isn't running by exiting out of function
                     return;
                 }
-                // If no knew url for this thread, keep waiting
+                // If no knew URL for this thread, keep waiting
                 if (SATEntryUrl == null)
                 {
                     continue;
@@ -363,7 +371,7 @@ namespace JWap
             // If the URL contains the base URL and it is positioned at the start, localResource = true
             if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
             {
-                // Remove the base URL and document that this url is a local resource
+                // Remove the base URL and document that this URL is a local resource
                 url = url.Replace(baseUrl, "");
                 localResource = true;
             }
@@ -484,7 +492,7 @@ namespace JWap
         // Method to process and add found URL's
         static void AddUrl(string url)
         {
-            // If url is nothing, return
+            // If URL is nothing, return
             if (url == ""
                 || url == null)
             {
@@ -516,7 +524,7 @@ namespace JWap
                     // Add to the externals array
                     externals.Add(Format(url, false));
 
-                    // Exit out of function, url has been processed
+                    // Exit out of function, URL has been processed
                     return;
                 }
             }
@@ -571,7 +579,7 @@ namespace JWap
                 // Otherwise, it is a page and not a duplicate, log and add
                 Log(url + " | ADDING AS PAGE");
 
-                // If the base URL is present at the start or the url doesn't contain the base URL
+                // If the base URL is present at the start or the URL doesn't contain the base URL
                 if (url.IndexOf(baseUrl) == 0
                     || !url.Contains(baseUrl))
                 {
@@ -598,7 +606,7 @@ namespace JWap
                     }
                 }
 
-                // If firstSlashPos is found then strippedUrl becomes the url without the last segment
+                // If firstSlashPos is found then strippedUrl becomes the URL without the last segment
                 string strippedUrl = null;
                 // Otherwise strippedUrl stays null
                 if (firstSlashPos != -1)
@@ -684,7 +692,7 @@ namespace JWap
                 // Log the adding of the current URL as a resource
                 Log(url + " | ADDING AS RESOURCE");
 
-                // If the base URL is present at the start or the url doesn't contain the base URL
+                // If the base URL is present at the start or the URL doesn't contain the base URL
                 if (url.IndexOf(baseUrl) == 0
                     || !url.Contains(baseUrl))
                 {
@@ -750,14 +758,24 @@ namespace JWap
             foreach (string curExt in Sort(externals.ToArray()))
                 textToSave += "    " + curExt + "\n";
 
+            // Add divider
+            textToSave += "-\n";
+
             // Notify the user where to look for the log in the map file
             textToSave += "\nLook in '" + path + "' for logs.";
+
+            // Generate the SEO report
+            SEOReport();
+            // Add the SEO Report 
+            textToSave += "\n\n\n***SEO Report***\n";
+            foreach (string curErr in seoErrors.ToArray())
+                textToSave += "    " + curErr + "\n";
 
             // Write to the map file
             File.WriteAllText("map_" + path.Replace("logs/", ""), textToSave);
         }
 
-        // Method to get the html of a given URL
+        // Method to get the HTML of a given URL
         static string GetHtml(string url)
         {
             try
@@ -769,21 +787,29 @@ namespace JWap
             {
                 try
                 {
-                    // Try returning the URL as http not https
-                    return new WebClient().DownloadString(url.Replace("https", "http"));
+                    // Try returning the URL as https://www., not just https
+                    return new WebClient().DownloadString(url.Replace("https://", "https://www."));
                 }
                 catch
                 {
                     try
                     {
-                        // Try returning the URL as http://www., not https
-                        return new WebClient().DownloadString(url.Replace("https://", "http://www."));
+                        // Try returning the URL as http not https
+                        return new WebClient().DownloadString(url.Replace("https", "http"));
                     }
                     catch
                     {
-                        // If page is unreachable, log and return null
-                        Log(url + " | ABANDONING INVALID LINK");
-                        return null;
+                        try
+                        {
+                            // Try returning the URL as http://www., not https
+                            return new WebClient().DownloadString(url.Replace("https://", "http://www."));
+                        }
+                        catch
+                        {
+                            // If page is unreachable, log and return null
+                            Log(url + " | ABANDONING INVALID LINK");
+                            return null;
+                        }
                     }
                 }
             }
@@ -837,11 +863,202 @@ namespace JWap
             // Return the path
             return "logs/" + url + ".txt";
         }
-
-        // Method to download the site and resources
-        static void Download()
+        
+        // Method used to find and validate meta tags in the header
+        static string MetaSearch(string tempHtml, string metaType, string url)
         {
+            // Check the meta tags
+            string metaRef;
+            // If tempHtml contains the defined metaType
+            if (tempHtml.Contains("<meta name=\"" + metaType + "\""))
+            {
+                // Get position of this string
+                int metaPos = tempHtml.IndexOf("<meta name=");
 
+                // Find the position of the ending >
+                int endTagPos = -1;
+                for (int i = metaPos + 1; i < tempHtml.Length - 1; i++)
+                {
+                    // When end tag found, store and break
+                    if (tempHtml[i] == '>')
+                    {
+                        endTagPos = i;
+                        break;
+                    }
+                }
+
+                // Get full meta tag as a string
+                metaRef = tempHtml.Substring(metaPos, endTagPos - metaPos);
+
+                // If there is a duplicate meta tag
+                if (tempHtml.Replace(metaRef, "").Contains("<meta name=\"" + metaType + "\""))
+                {
+                    // Add as an error, return tempHtml unchanged
+                    seoErrors.Add("Too many meta " + metaType + " tags | " + url);
+                    return tempHtml;
+                }
+            }
+            // If no meta tag found
+            else
+            {
+                // Add as an error, return tempHtml unchanged
+                seoErrors.Add("No meta " + metaType + " tag | " + url);
+                return tempHtml;
+            }
+
+            // Return tempHtml will the processed tag removed
+            return tempHtml.Replace(metaRef, "");
+        }
+
+        // Method to make a basic SEO report
+        static void SEOReport()
+        {
+            // Go through each URL in the list urls
+            foreach (string url in urls)
+            {
+                //TODO if it is a searched url continue
+
+                string html = null;
+                if (url == baseUrl)
+                {
+                    html = GetHtml("https://" + url);
+                }
+                else
+                {
+                    // Get the HTML and convert to lower case
+                    html = GetHtml("https://" + baseUrl + url);
+                }
+
+                // If GetHTML() returns null (link couldn't be accessed)
+                if (html == null)
+                {
+                    // Continue to next link
+                    continue;
+                }
+
+                html = html.ToLower();
+
+                // If the file contains h1 tags
+                if (html.Contains("<h1>") && html.Contains("</h1>"))
+                {
+                    // Get position of "<h1>"
+                    int sTagPos = html.IndexOf("<h1>");
+                    // Store the HTML without the h1 tags
+                    string htmlNoTag = html.Remove(sTagPos, (html.IndexOf("</h1>") - sTagPos) + 5);
+
+                    // If there is still a h1 tag, multiple have been found
+                    if (htmlNoTag.Contains("<h1>")
+                        || htmlNoTag.Contains("</h1>"))
+                    {
+                        // Add as an error
+                        seoErrors.Add("Multiple h1 tags | " + url);
+                    }
+                }
+                // If no h1 tag is found
+                else
+                {
+                    // Add as an error
+                    seoErrors.Add("No h1 tag | " + url);
+                }
+
+                // Store the HTML in a format that is disposable
+                string tempHtml = html;
+
+                // Used to look for "<img" tags untill none are left
+                while (true)
+                {
+                    // Get index of "<img"
+                    int imgPos = tempHtml.IndexOf("<img");
+                    // If it is not found, break, all have been processed
+                    if (imgPos < 0)
+                    {
+                        break;
+                    }
+
+                    // Get ending tag position
+                    int endTagPos = -1;
+                    for (int i = imgPos + 1; i < tempHtml.Length - 1; i++)
+                    {
+                        // If current character is the ending tag
+                        if (tempHtml[i] == '>')
+                        {
+                            // Store and break
+                            endTagPos = i;
+                            break;
+                        }
+                    }
+
+                    // Get the entire img tag as a string
+                    string imgRef = tempHtml.Substring(imgPos, endTagPos - imgPos);
+
+                    // Store index of "alt=" in the img tag
+                    int altPos = imgRef.IndexOf("alt=");
+                    // If "alt=" is found
+                    if (altPos >= 0)
+                    {
+                        // Get the first 2 characters after "alt=""
+                        string altContent = imgRef.Substring(altPos + 5, 2);
+                        // If a " is found the alt tag is nothing
+                        if (altContent.Contains("\"")
+                            || altContent.Contains("'"))
+                        {
+                            // Add as an error
+                            seoErrors.Add("No alt tag for image | " + url + " | " + imgRef + ">");
+                        }
+                    }
+                    // If "alt=" isn't found
+                    else
+                    {
+                        // Add as an error
+                        seoErrors.Add("No alt tag for image | " + url + " | " + imgRef + ">");
+                    }
+
+                    // Remove the "<img" tag from the disposable variable
+                    tempHtml = tempHtml.Replace(imgRef, "");
+                }
+
+                // Get the indexes of the starting head tag and ending head tag
+                int headStart = html.IndexOf("<head>");
+                int headEnd = html.IndexOf("</head>");
+
+                // Reset tempHtml
+                tempHtml = html;
+
+                // If both headStart and headEnd exist
+                if (headStart >= 0 && headEnd >= 0)
+                {
+                    // Process tempHtml as a MetaSearch() with these parameters (See the MetaSearch() function)
+                    tempHtml = MetaSearch(tempHtml, "description", url);
+                    tempHtml = MetaSearch(tempHtml, "keywords", url);
+                    tempHtml = MetaSearch(tempHtml, "author", url);
+                    tempHtml = MetaSearch(tempHtml, "viewport", url);
+                    tempHtml = MetaSearch(tempHtml, "copyright", url);
+                    tempHtml = MetaSearch(tempHtml, "robots", url);
+
+                    // Check if page contains title tags
+                    if (tempHtml.Contains("<title>") && tempHtml.Contains("</title>"))
+                    {
+                        // Get position of initial title tag
+                        int sTagPos = tempHtml.IndexOf("<title>");
+                        // Get the HTML without the tag
+                        string htmlNoTag = tempHtml.Remove(sTagPos, (tempHtml.IndexOf("</title>") - sTagPos) + 8);
+
+                        // If HTML still contains title tag(s) when first one is removed, there is multiple
+                        if (htmlNoTag.Contains("<title>")
+                            || htmlNoTag.Contains("</title>"))
+                        {
+                            // Add as an error
+                            seoErrors.Add("Multiple title tags | " + url);
+                        }
+                    }
+                    // If no title tags are present
+                    else
+                    {
+                        // Add as an error
+                        seoErrors.Add("No title tag | " + url);
+                    }
+                }
+            }
         }
 
         // Method to exit the program peacefully

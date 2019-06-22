@@ -4,6 +4,7 @@ joshsawyer.dev
 
 Pages / Page Locations
     #home
+    joshsawyer.dev
 -
 Resources
     fam.css
@@ -23,5 +24,21 @@ Externals
     github.com/joshsawyer/jdtb
     github.com/joshsawyer/j-launcher
     github.com/joshsawyer/p33r-pressure
+-
 
 Look in 'logs/joshsawyerdev.txt' for logs.
+
+
+***SEO Report***
+    No h1 tag | joshsawyer.dev
+    No meta description tag | joshsawyer.dev
+    No meta keywords tag | joshsawyer.dev
+    No meta author tag | joshsawyer.dev
+    No meta copyright tag | joshsawyer.dev
+    No meta robots tag | joshsawyer.dev
+    No h1 tag | #home
+    No meta description tag | #home
+    No meta keywords tag | #home
+    No meta author tag | #home
+    No meta copyright tag | #home
+    No meta robots tag | #home

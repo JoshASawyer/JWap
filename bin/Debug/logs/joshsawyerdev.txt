@@ -1,32 +1,32 @@
-mystyle.css | ADDING AS RESOURCE
+mystyle.css | ADDING AS RESOURCE | mystyle.css
 
-w3.css | ADDING AS RESOURCE
+w3.css | ADDING AS RESOURCE | w3.css
 
-fam.css | ADDING AS RESOURCE
+fam.css | ADDING AS RESOURCE | fam.css
 
-gc.css | ADDING AS RESOURCE
+gc.css | ADDING AS RESOURCE | gc.css
 
-joshsawyer.dev/#home | ADDING AS PAGE
+joshsawyer.dev/#home | ADDING AS PAGE | joshsawyer.dev/#home
 
-javascript:void(0) | ADDING AS RESOURCE
+javascript:void(0) | ADDING AS RESOURCE | javascript:void(0)
 
-github.com/joshsawyer | ADDING AS EXTERNAL
+github.com/joshsawyer | ADDING AS EXTERNAL | github.com/joshsawyer
 
-github.com/joshsawyer/j-launcher | ADDING AS EXTERNAL
+github.com/joshsawyer/j-launcher | ADDING AS EXTERNAL | github.com/joshsawyer/j-launcher
 
-github.com/joshsawyer/file-handler | ADDING AS EXTERNAL
+github.com/joshsawyer/file-handler | ADDING AS EXTERNAL | github.com/joshsawyer/file-handler
 
-github.com/joshsawyer/jdtb | ADDING AS EXTERNAL
+github.com/joshsawyer/jdtb | ADDING AS EXTERNAL | github.com/joshsawyer/jdtb
 
-github.com/joshsawyer/p33r-pressure | ADDING AS EXTERNAL
+github.com/joshsawyer/p33r-pressure | ADDING AS EXTERNAL | github.com/joshsawyer/p33r-pressure
 
-scripts.js | ADDING AS RESOURCE
+scripts.js | ADDING AS RESOURCE | scripts.js
 
-images/jlp.jpg | ADDING AS RESOURCE
+images/jlp.jpg | ADDING AS RESOURCE | images/jlp.jpg
 
-images/fh.jpg | ADDING AS RESOURCE
+images/fh.jpg | ADDING AS RESOURCE | images/fh.jpg
 
-images/jdtb.jpg | ADDING AS RESOURCE
+images/jdtb.jpg | ADDING AS RESOURCE | images/jdtb.jpg
 
-images/p33p.jpg | ADDING AS RESOURCE
+images/p33p.jpg | ADDING AS RESOURCE | images/p33p.jpg
 

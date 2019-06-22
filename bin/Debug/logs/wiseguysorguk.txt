@@ -24,20 +24,6 @@ manifest.json | ABANDONING DUPE
 
 index.htm | ADDING AS PAGE
 
-style.css | ABANDONING DUPE
-
-apple-touch-icon.png | ABANDONING DUPE
-
-favicon-32x32.png | ABANDONING DUPE
-
-favicon-16x16.png | ABANDONING DUPE
-
-manifest.json | ABANDONING DUPE
-
-index.htm | ABANDONING DUPE
-
-downloads.htm | ADDING AS PAGE
-
 consumers/style.css | ABANDONING DUPE
 
 apple-touch-icon.png | ABANDONING DUPE
@@ -56,9 +42,19 @@ fatpromotions.co.uk | ADDING AS EXTERNAL
 
 resources.htm | ADDING AS PAGE
 
-https://wiseguys.org.uk/downloads.htm | ABANDONING INVALID LINK
+style.css | ABANDONING DUPE
 
-about.htm | ADDING AS PAGE
+apple-touch-icon.png | ABANDONING DUPE
+
+favicon-32x32.png | ABANDONING DUPE
+
+favicon-16x16.png | ABANDONING DUPE
+
+manifest.json | ABANDONING DUPE
+
+index.htm | ABANDONING DUPE
+
+downloads.htm | ADDING AS PAGE
 
 https://wiseguys.org.uk/resources.htm | ABANDONING INVALID LINK
 
@@ -72,13 +68,17 @@ resources.htm#ks4 | ADDING AS PAGE
 
 links.htm | ADDING AS PAGE
 
-https://wiseguys.org.uk/about.htm | ABANDONING INVALID LINK
+https://wiseguys.org.uk/downloads.htm | ABANDONING INVALID LINK
 
-help.htm | ADDING AS PAGE
+about.htm | ADDING AS PAGE
 
 https://wiseguys.org.uk/links.htm | ABANDONING INVALID LINK
 
 contact.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/about.htm | ABANDONING INVALID LINK
+
+help.htm | ADDING AS PAGE
 
 https://wiseguys.org.uk/help.htm | ABANDONING INVALID LINK
 
@@ -128,19 +128,19 @@ your-money.htm | ADDING AS PAGE
 
 scammed.htm | ADDING AS PAGE
 
-https://wiseguys.org.uk/your-money.htm | ABANDONING INVALID LINK
-
 https://wiseguys.org.uk/scammed.htm | ABANDONING INVALID LINK
 
 utilities.htm | ADDING AS PAGE
 
-keeping.htm | ADDING AS PAGE
+https://wiseguys.org.uk/your-money.htm | ABANDONING INVALID LINK
 
 https://wiseguys.org.uk/utilities.htm | ABANDONING INVALID LINK
 
-https://wiseguys.org.uk/keeping.htm | ABANDONING INVALID LINK
+keeping.htm | ADDING AS PAGE
 
 complain.htm | ADDING AS PAGE
+
+https://wiseguys.org.uk/complain.htm | ABANDONING INVALID LINK
 
 mailto:wise.guys@eastsussex.gov.uk | ABANDONING DUPE
 
