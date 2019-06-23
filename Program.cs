@@ -244,7 +244,7 @@ namespace JWap
                 // Requests user input
                 Console.Write("\nWould you like to save these results alongside an SEO report? (Y/N) >: ");
                 // Read in character and convert to lower case
-                char answer = Convert.ToChar(Console.ReadLine()[0]);
+                char answer = Convert.ToChar(Console.Read());
                 answer = char.ToLower(answer);
 
                 // If the user wants to save, save
