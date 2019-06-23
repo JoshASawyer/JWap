@@ -11,7 +11,7 @@ using System.IO;
 
 /* 
  * Author: Josh Sawyer
- * Date Last Edited: 22/06/19 @ 22:32
+ * Date Last Edited: 23/06/19 @ 15:26
  * 
  * Project Definition: A collection of scripts and programs used to
  * analyze websites. Currently only the Web Mapper is functional
@@ -20,6 +20,24 @@ using System.IO;
 
 namespace JWap
 {
+    // Url class
+    class Url
+    {
+        // Variable to store the actual URL
+        public string value;
+        // Variable to store whether or not it has been analyzed
+        public bool analyzed;
+
+        // Class constructor
+        public Url(string value, bool analyzed)
+        {
+            // Sync variables values
+            this.value = value;
+            this.analyzed = analyzed;
+        }
+    }
+
+    // Main class
     class Program
     {
         // Static read only string arrays
@@ -58,14 +76,15 @@ namespace JWap
 
         // Static string lists
         static List<string>
-            // To store all pages that are found
-            urls = new List<string>(),
             // To store all resources that are found
             resources = new List<string>(),
             // To store all external links that are found
             externals = new List<string>(),
             // To store SEO errors on analysis
             seoErrors = new List<string>();
+
+        // To store urls as a Url class
+        static List<Url> urls = new List<Url>();
 
         // Static string to store the base url, e.g. https://google.com
         static string baseUrl;
@@ -154,7 +173,7 @@ namespace JWap
             }
             // Now that base URL is got, construct the path to the log file, and add it to urls list
             path = GetFileName(baseUrl);
-            urls.Add(baseUrl);
+            urls.Add(new Url(baseUrl, true));
 
             // If the logs/ folder doesn't exist, create it
             if (!Directory.Exists("logs/"))
@@ -189,8 +208,8 @@ namespace JWap
             // Print a list of pages found in cyan
             Console.WriteLine("Pages / Page Locations");
             Console.ForegroundColor = ConsoleColor.Cyan;
-            foreach (string curUrl in Sort(urls.ToArray()))
-                Console.WriteLine("    " + curUrl);
+            foreach (Url curUrl in Sort(urls.ToArray()))
+                Console.WriteLine("    " + curUrl.value);
 
             // Reset console colour and print divider ("-")
             Console.ForegroundColor = ConsoleColor.White;
@@ -232,7 +251,7 @@ namespace JWap
                 if (answer == 'y')
                 {
                     // Notify the user of the saving of the results
-                    Console.WriteLine("\nSaving results and report in " + Directory.GetCurrentDirectory());
+                    Console.WriteLine("\nSaving results and report in " + Directory.GetCurrentDirectory() + "...");
                     // Save the map to a local file, break out of loop
                     SaveMap();
                     break;
@@ -551,7 +570,7 @@ namespace JWap
                     break;
                 }
                 // If URL has the structure of a redirected page, e.g. website.com/mypage/, its a page,
-                else if (url[i] == '/'
+                else if (url[i] == '/' 
                     || url[i] == '\\')
                 {
                     // Document that the current URL is a page
@@ -564,11 +583,11 @@ namespace JWap
             if (isPage)
             {
                 // Check for duplicate
-                foreach (string curUrl in urls.ToArray())
+                foreach (Url curUrl in urls.ToArray())
                 {
                     // If the current URL is a duplicate do this
-                    if (Format(url.Replace(baseUrl, ""), false) == curUrl
-                        || url == curUrl)
+                    if (Format(url.Replace(baseUrl, ""), false) == curUrl.value
+                        || url == curUrl.value)
                     {
                         // Log and return
                         Log(url + " | ABANDONING DUPE");
@@ -584,13 +603,13 @@ namespace JWap
                     || !url.Contains(baseUrl))
                 {
                     // Format and add without the base url
-                    urls.Add(Format(url.Replace(baseUrl, ""), false));
+                    urls.Add(new Url(Format(url.Replace(baseUrl, ""), false), false));
                 }
                 // Otherwise
                 else
                 {
                     // Format and add as is
-                    urls.Add(Format(url, false));
+                    urls.Add(new Url(Format(url, false), false));
                 }
 
                 // Find the position of the first '/'
@@ -611,7 +630,7 @@ namespace JWap
                 // Otherwise strippedUrl stays null
                 if (firstSlashPos != -1)
                 {
-                    strippedUrl = url.Substring(0, url.Length - firstSlashPos);
+                    strippedUrl = url.Substring(0, firstSlashPos);
                 }
 
                 // If the page is not a page location or strippedUrl is not null
@@ -622,16 +641,19 @@ namespace JWap
                     if (strippedUrl != null)
                     {
                         // Check for duplicate
-                        foreach (string page in urls.ToArray())
+                        foreach (Url page in urls.ToArray())
                         {
                             // If the formatted or plain version of strippedUrl is already stored as a page, return
-                            if (Format(strippedUrl, false) == page
-                                || strippedUrl == page)
+                            if (Format(strippedUrl, false) == page.value
+                                || strippedUrl == page.value)
                             {
                                 return;
                             }
                         }
                     }
+
+                    // Current URL is about to be analyzed, store as true
+                    urls[urls.Count - 1].analyzed = true;
 
                     // If the current URL contains the base URL at the start do this
                     if (url.Contains(baseUrl) && url.IndexOf(baseUrl) == 0)
@@ -739,8 +761,8 @@ namespace JWap
 
             // Add the pages 
             textToSave += "Pages / Page Locations\n";
-            foreach (string curUrl in Sort(urls.ToArray()))
-                textToSave += "    " + curUrl + "\n";
+            foreach (Url curUrl in Sort(urls.ToArray()))
+                textToSave += "    " + curUrl.value + "\n";
 
             // Add divider
             textToSave += "-\n";
@@ -815,7 +837,7 @@ namespace JWap
             }
         }
 
-        // Method to sort array into alphabetical order
+        // (POLYMORPHISM) Method to sort array into alphabetical order
         static string[] Sort(string[] toSort)
         {
             // Sort array
@@ -851,6 +873,42 @@ namespace JWap
             return toSort;
         }
 
+        // (POLYMORPHISM) Method to sort array of class Url into alphabetical order
+        static Url[] Sort(Url[] toSort)
+        {
+            // Sort array
+            for (int i = 0; i < toSort.Length - 1; i++)
+            {
+                // Variable to store whether an iteration ran without changing the array
+                bool cleanRun = true;
+
+                // Go through the array
+                for (int t = 0; t < toSort.Length - 1; t++)
+                {
+                    // If the second result is before the first result alphabetically do this
+                    if (string.Compare(toSort[t].value, toSort[t + 1].value) > 0)
+                    {
+                        // Switch toSort[t] with toSort[t + 1]
+                        Url temp = toSort[t];
+                        toSort[t] = toSort[t + 1];
+                        toSort[t + 1] = temp;
+
+                        // If a swap has been made, not a clean run, cleanRun = false
+                        cleanRun = false;
+                    }
+                }
+
+                // If a clean run has been made, no more iterations needed, exit
+                if (cleanRun)
+                {
+                    break;
+                }
+            }
+
+            // Return new array
+            return toSort;
+        }
+
         // Method to give the log path of a given URL
         static string GetFileName(string url)
         {
@@ -863,7 +921,7 @@ namespace JWap
             // Return the path
             return "logs/" + url + ".txt";
         }
-        
+
         // Method used to find and validate meta tags in the header
         static string MetaSearch(string tempHtml, string metaType, string url)
         {
@@ -914,19 +972,33 @@ namespace JWap
         static void SEOReport()
         {
             // Go through each URL in the list urls
-            foreach (string url in urls)
+            foreach (Url url in urls.ToArray())
             {
-                //TODO if it is a searched url continue
-
-                string html = null;
-                if (url == baseUrl)
+                // If URL isn't analyzed (it's a page location or dupe)
+                if (!url.analyzed)
                 {
-                    html = GetHtml("https://" + url);
+                    // Move on to next url
+                    continue;
+                }
+
+                // If URL is the index page (the baseUrl is already on the list)
+                if (url.value.Contains("index") && !url.value.Contains("/"))
+                {
+                    // Move on to next url
+                    continue;
+                }
+
+                //Get html of baseUrl or any other pages
+                string html = null;
+                if (url.value == baseUrl)
+                {
+                    // Get html of "https://" + url
+                    html = GetHtml("https://" + url.value);
                 }
                 else
                 {
                     // Get the HTML and convert to lower case
-                    html = GetHtml("https://" + baseUrl + url);
+                    html = GetHtml("https://" + baseUrl + "/" + url.value);
                 }
 
                 // If GetHTML() returns null (link couldn't be accessed)
@@ -951,14 +1023,14 @@ namespace JWap
                         || htmlNoTag.Contains("</h1>"))
                     {
                         // Add as an error
-                        seoErrors.Add("Multiple h1 tags | " + url);
+                        seoErrors.Add("Multiple h1 tags | " + url.value);
                     }
                 }
                 // If no h1 tag is found
                 else
                 {
                     // Add as an error
-                    seoErrors.Add("No h1 tag | " + url);
+                    seoErrors.Add("No h1 tag | " + url.value);
                 }
 
                 // Store the HTML in a format that is disposable
@@ -988,8 +1060,9 @@ namespace JWap
                         }
                     }
 
-                    // Get the entire img tag as a string
+                    // Get the entire img tag as a string and adds the closing tag
                     string imgRef = tempHtml.Substring(imgPos, endTagPos - imgPos);
+                    imgRef += ">";
 
                     // Store index of "alt=" in the img tag
                     int altPos = imgRef.IndexOf("alt=");
@@ -997,20 +1070,20 @@ namespace JWap
                     if (altPos >= 0)
                     {
                         // Get the first 2 characters after "alt=""
-                        string altContent = imgRef.Substring(altPos + 5, 2);
+                        string altContent = imgRef.Substring(altPos + 5, 2); //// wiseguys.org.uk
                         // If a " is found the alt tag is nothing
                         if (altContent.Contains("\"")
                             || altContent.Contains("'"))
                         {
                             // Add as an error
-                            seoErrors.Add("No alt tag for image | " + url + " | " + imgRef + ">");
+                            seoErrors.Add("No alt tag for image | " + url.value + " | " + imgRef);
                         }
                     }
                     // If "alt=" isn't found
                     else
                     {
                         // Add as an error
-                        seoErrors.Add("No alt tag for image | " + url + " | " + imgRef + ">");
+                        seoErrors.Add("No alt tag for image | " + url.value + " | " + imgRef);
                     }
 
                     // Remove the "<img" tag from the disposable variable
@@ -1028,12 +1101,12 @@ namespace JWap
                 if (headStart >= 0 && headEnd >= 0)
                 {
                     // Process tempHtml as a MetaSearch() with these parameters (See the MetaSearch() function)
-                    tempHtml = MetaSearch(tempHtml, "description", url);
-                    tempHtml = MetaSearch(tempHtml, "keywords", url);
-                    tempHtml = MetaSearch(tempHtml, "author", url);
-                    tempHtml = MetaSearch(tempHtml, "viewport", url);
-                    tempHtml = MetaSearch(tempHtml, "copyright", url);
-                    tempHtml = MetaSearch(tempHtml, "robots", url);
+                    tempHtml = MetaSearch(tempHtml, "description", url.value);
+                    tempHtml = MetaSearch(tempHtml, "keywords", url.value);
+                    tempHtml = MetaSearch(tempHtml, "author", url.value);
+                    tempHtml = MetaSearch(tempHtml, "viewport", url.value);
+                    tempHtml = MetaSearch(tempHtml, "copyright", url.value);
+                    tempHtml = MetaSearch(tempHtml, "robots", url.value);
 
                     // Check if page contains title tags
                     if (tempHtml.Contains("<title>") && tempHtml.Contains("</title>"))
@@ -1048,16 +1121,18 @@ namespace JWap
                             || htmlNoTag.Contains("</title>"))
                         {
                             // Add as an error
-                            seoErrors.Add("Multiple title tags | " + url);
+                            seoErrors.Add("Multiple title tags | " + url.value);
                         }
                     }
                     // If no title tags are present
                     else
                     {
                         // Add as an error
-                        seoErrors.Add("No title tag | " + url);
+                        seoErrors.Add("No title tag | " + url.value);
                     }
                 }
+                // Add a new line
+                seoErrors.Add(null);
             }
         }
 
@@ -1065,7 +1140,7 @@ namespace JWap
         static void Exit()
         {
             // Prompt user to enter any key to end the program
-            Console.Write("\nPRESS ANY KEY TO END PROGRAM...");
+            Console.Write("\nDone...\nPRESS ANY KEY TO END PROGRAM... ");
             // Read next key input
             Console.ReadKey();
             // Exit the program (OBSOLETE: Was used to force close threads, not needed as threads close automatically)

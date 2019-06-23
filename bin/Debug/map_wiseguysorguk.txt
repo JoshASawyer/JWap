@@ -22,6 +22,7 @@ Pages / Page Locations
     teachers/index.htm
     useful_contacts.htm
     utilities.htm
+    wiseguys.org.uk
     your-money.htm
     your-rights.htm
 -
@@ -46,5 +47,37 @@ Externals
     mailto:wise.guys@eastsussex.gov.uk;louise.baxter@eastsussex.gov.uk
     tradingstandards.gov.uk/brighton-hove
     tradingstandards.gov.uk/milton-keynes
+-
 
 Look in 'logs/wiseguysorguk.txt' for logs.
+
+
+***SEO Report***
+    Too many meta description tags | wiseguys.org.uk
+    Too many meta keywords tags | wiseguys.org.uk
+    Too many meta author tags | wiseguys.org.uk
+    No meta viewport tag | wiseguys.org.uk
+    Too many meta copyright tags | wiseguys.org.uk
+    Too many meta robots tags | wiseguys.org.uk
+    
+    No alt tag for image | teachers/index.htm | <img name="index_r2_c1" src="images/index_r2_c1.gif" width="13" height="105" border="0" alt="">
+    No alt tag for image | teachers/index.htm | <img name="index_r2_c2" src="images/index_r2_c2.gif" width="160" height="13" border="0" alt="">
+    No alt tag for image | teachers/index.htm | <img name="index_r2_c3" src="images/index_r2_c3.gif" width="4" height="100" border="0" alt="">
+    No alt tag for image | teachers/index.htm | <img name="index_r5_c2" src="images/index_r5_c2.gif" width="160" height="25" border="0" alt="">
+    No alt tag for image | teachers/index.htm | <img name="index_r2_c4" src="images/index_r2_c4.gif" width="449" height="13" border="0" alt="">
+    No alt tag for image | teachers/index.htm | <img src="images/index_r11_c4.gif" width="449" height="17" alt="*">
+    Too many meta description tags | teachers/index.htm
+    Too many meta keywords tags | teachers/index.htm
+    Too many meta author tags | teachers/index.htm
+    No meta viewport tag | teachers/index.htm
+    Too many meta copyright tags | teachers/index.htm
+    Too many meta robots tags | teachers/index.htm
+    
+    No alt tag for image | consumers/index.htm | <img name="index_r2_c4" src="images/index_r2_c4.gif" width="623" height="13" border="0" alt="">
+    Too many meta description tags | consumers/index.htm
+    Too many meta keywords tags | consumers/index.htm
+    Too many meta author tags | consumers/index.htm
+    No meta viewport tag | consumers/index.htm
+    Too many meta copyright tags | consumers/index.htm
+    Too many meta robots tags | consumers/index.htm
+    

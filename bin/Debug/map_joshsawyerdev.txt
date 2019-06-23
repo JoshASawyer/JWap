@@ -36,9 +36,3 @@ Look in 'logs/joshsawyerdev.txt' for logs.
     No meta author tag | joshsawyer.dev
     No meta copyright tag | joshsawyer.dev
     No meta robots tag | joshsawyer.dev
-    No h1 tag | #home
-    No meta description tag | #home
-    No meta keywords tag | #home
-    No meta author tag | #home
-    No meta copyright tag | #home
-    No meta robots tag | #home

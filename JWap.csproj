@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9BC2D134-8151-4496-A97E-F8068935C464}</ProjectGuid>
+    <ProjectGuid>{4514E2BC-5A3D-4FD2-A297-A7EF470805D0}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>JWap</RootNamespace>
     <AssemblyName>JWap</AssemblyName>

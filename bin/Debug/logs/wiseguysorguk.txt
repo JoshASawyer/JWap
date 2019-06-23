@@ -80,12 +80,6 @@ https://wiseguys.org.uk/about.htm | ABANDONING INVALID LINK
 
 help.htm | ADDING AS PAGE
 
-https://wiseguys.org.uk/help.htm | ABANDONING INVALID LINK
-
-contact.htm | ABANDONING DUPE
-
-useful_contacts.htm | ADDING AS PAGE
-
 https://wiseguys.org.uk/contact.htm | ABANDONING INVALID LINK
 
 eastsussex.gov.uk/business/tradingstandards | ADDING AS EXTERNAL
@@ -106,7 +100,11 @@ help.htm | ABANDONING DUPE
 
 eastsussex.gov.uk | ADDING AS EXTERNAL
 
-https://wiseguys.org.uk/useful_contacts.htm | ABANDONING INVALID LINK
+https://wiseguys.org.uk/help.htm | ABANDONING INVALID LINK
+
+contact.htm | ABANDONING DUPE
+
+useful_contacts.htm | ADDING AS PAGE
 
 mailto:wise.guys@eastsussex.gov.uk;louise.baxter@eastsussex.gov.uk | ADDING AS EXTERNAL
 
@@ -118,29 +116,31 @@ get.adobe.com/uk/reader | ADDING AS EXTERNAL
 
 your-rights.htm | ADDING AS PAGE
 
-health-living.htm | ADDING AS PAGE
+https://wiseguys.org.uk/useful_contacts.htm | ABANDONING INVALID LINK
 
 https://wiseguys.org.uk/your-rights.htm | ABANDONING INVALID LINK
 
-https://wiseguys.org.uk/health-living.htm | ABANDONING INVALID LINK
+health-living.htm | ADDING AS PAGE
 
 your-money.htm | ADDING AS PAGE
 
-scammed.htm | ADDING AS PAGE
-
-https://wiseguys.org.uk/scammed.htm | ABANDONING INVALID LINK
-
-utilities.htm | ADDING AS PAGE
+https://wiseguys.org.uk/health-living.htm | ABANDONING INVALID LINK
 
 https://wiseguys.org.uk/your-money.htm | ABANDONING INVALID LINK
+
+scammed.htm | ADDING AS PAGE
+
+utilities.htm | ADDING AS PAGE
 
 https://wiseguys.org.uk/utilities.htm | ABANDONING INVALID LINK
 
 keeping.htm | ADDING AS PAGE
 
-complain.htm | ADDING AS PAGE
+https://wiseguys.org.uk/scammed.htm | ABANDONING INVALID LINK
 
-https://wiseguys.org.uk/complain.htm | ABANDONING INVALID LINK
+https://wiseguys.org.uk/keeping.htm | ABANDONING INVALID LINK
+
+complain.htm | ADDING AS PAGE
 
 mailto:wise.guys@eastsussex.gov.uk | ABANDONING DUPE
 
