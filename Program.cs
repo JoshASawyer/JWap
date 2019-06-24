@@ -13,9 +13,8 @@ using System.IO;
  * Author: Josh Sawyer
  * Date Last Edited: 23/06/19 @ 15:58
  * 
- * Project Definition: A collection of scripts and programs used to
- * analyze websites. Currently only the Web Mapper is functional
- * and present.
+ * Project Definition: A web mapper and
+ * SEO reporter.
 */
 
 namespace JWap
