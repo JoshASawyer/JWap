@@ -15,6 +15,8 @@ using System.IO;
  * 
  * Project Definition: A web mapper and
  * SEO reporter.
+ * 
+ * TODO print out SEO report
 */
 
 namespace JWap
@@ -172,7 +174,6 @@ namespace JWap
             }
             // Now that base URL is got, construct the path to the log file, and add it to urls list
             path = GetFileName(baseUrl);
-            urls.Add(new Url(baseUrl, true));
 
             // If the logs/ folder doesn't exist, create it
             if (!Directory.Exists("logs/"))
@@ -970,6 +971,8 @@ namespace JWap
         // Method to make a basic SEO report
         static void SEOReport()
         {
+            // Add baseUrl
+            urls.Add(new Url(baseUrl, true));
             // Go through each URL in the list urls
             foreach (Url url in urls.ToArray())
             {
