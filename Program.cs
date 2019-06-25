@@ -17,6 +17,7 @@ using System.IO;
  * SEO reporter.
  * 
  * TODO print out SEO report
+ * TODO end analysis early option?
 */
 
 namespace JWap
