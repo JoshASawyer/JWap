@@ -6,4 +6,6 @@ If you choose to save the results an SEO report will be made and added to the bo
 ## SEO Reporter
 The SEO report is a small summary of things that violate common SEO rules, found in the map_ file.
 ## Errors
-This program is a very new project of mine only being developed for about a week, so expect errors. However having said that, if you do run into an error do not worry, I have error tracking set up on this repository.
+This program is a very new and experimental project of mine, so expect errors. However having said that, if you do run into an error do not worry, I have error tracking* set up on this repository.
+
+*By using the files in this repository you are agreeing to sending information about your PC to me in the case of an error
