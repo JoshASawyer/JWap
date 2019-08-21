@@ -1,0 +1,11 @@
+C:\Users\joshu\Desktop\SiteMSR\bin\Debug\netcoreapp2.2\SiteMSR.deps.json
+C:\Users\joshu\Desktop\SiteMSR\bin\Debug\netcoreapp2.2\SiteMSR.runtimeconfig.json
+C:\Users\joshu\Desktop\SiteMSR\bin\Debug\netcoreapp2.2\SiteMSR.runtimeconfig.dev.json
+C:\Users\joshu\Desktop\SiteMSR\bin\Debug\netcoreapp2.2\SiteMSR.dll
+C:\Users\joshu\Desktop\SiteMSR\bin\Debug\netcoreapp2.2\SiteMSR.pdb
+C:\Users\joshu\Desktop\SiteMSR\obj\Debug\netcoreapp2.2\SiteMSR.csprojAssemblyReference.cache
+C:\Users\joshu\Desktop\SiteMSR\obj\Debug\netcoreapp2.2\SiteMSR.csproj.CoreCompileInputs.cache
+C:\Users\joshu\Desktop\SiteMSR\obj\Debug\netcoreapp2.2\SiteMSR.AssemblyInfoInputs.cache
+C:\Users\joshu\Desktop\SiteMSR\obj\Debug\netcoreapp2.2\SiteMSR.AssemblyInfo.cs
+C:\Users\joshu\Desktop\SiteMSR\obj\Debug\netcoreapp2.2\SiteMSR.dll
+C:\Users\joshu\Desktop\SiteMSR\obj\Debug\netcoreapp2.2\SiteMSR.pdb

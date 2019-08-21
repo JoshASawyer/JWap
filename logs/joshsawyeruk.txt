@@ -1,0 +1,30 @@
+css/w3.css | ADDING AS RESOURCE
+
+css/gapi.css | ADDING AS RESOURCE
+
+css/font.min.css | ADDING AS RESOURCE
+
+styles.css | ADDING AS RESOURCE
+
+images/logo.png | ADDING AS RESOURCE
+
+sley.j-as.dev | ADDING AS EXTERNAL
+
+all4oneflyball.j-as.dev | ADDING AS EXTERNAL
+
+github.com/joshsawyer/jwap | ADDING AS EXTERNAL
+
+github.com/joshsawyer/j-launcher | ADDING AS EXTERNAL
+
+mail:me@joshsawyer.uk | ADDING AS RESOURCE
+
+images/sleygd.png | ADDING AS RESOURCE
+
+images/sleyweb.jpg | ADDING AS RESOURCE
+
+images/all4one.jpg | ADDING AS RESOURCE
+
+images/jwap.jpg | ADDING AS RESOURCE
+
+images/jlp.jpg | ADDING AS RESOURCE
+

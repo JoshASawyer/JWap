@@ -8,6 +8,8 @@ using System.Net;
 using System.Threading;
 // Module for file output
 using System.IO;
+// Error tracking
+using Sentry;
 
 /* 
  * Author: Josh Sawyer
@@ -20,7 +22,7 @@ using System.IO;
  * TODO end analysis early option?
 */
 
-namespace JWap
+namespace SiteMSR
 {
     // Url class
     class Url
@@ -104,34 +106,41 @@ namespace JWap
         // Main method
         static void Main()
         {
-            // Used to catch any errors and log them
-            try
+            // Error tracking
+            using (SentrySdk.Init("https://6491815aab3848898a5e01f97b17f5a8@sentry.io/1537888"))
             {
-                // Start the command line interface
-                CLI();
-            }
-            // Catch any exception and store the value
-            catch (Exception e)
-            {
-                // Used to stop all threads except for this main one
-                processComplete = true;
+                // Throws a test error to make sure that error tracking is working
+                //throw new System.Exception("Shane Conway");
 
-                // Print the error to console in red and asks user to send it to the developer (me)
-                Console.ForegroundColor = ConsoleColor.Red;
-                // Prints the message
-                Console.WriteLine("\nERROR CAUGHT:\n" + e + "\nPlease send your log file to github.com/JoshSawyer");
-                // Resets console colour
-                Console.ForegroundColor = ConsoleColor.White;
+                // Used to catch any errors and log them
+                try
+                {
+                    // Start the command line interface
+                    CLI();
+                }
+                // Catch any exception and store the value
+                catch (Exception e)
+                {
+                    // Used to stop all threads except for this main one
+                    processComplete = true;
 
-                // Log the error
-                Log(e + " | ERROR THROWN");
-                // Save the logs to the log file
-                Log();
+                    // Print the error to console in red and asks user to send it to the developer (me)
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    // Prints the message
+                    Console.WriteLine("\nERROR CAUGHT:\n" + e + "\nPlease send your log file to github.com/JoshSawyer");
+                    // Resets console colour
+                    Console.ForegroundColor = ConsoleColor.White;
 
-                // Exit the program
-                Exit();
-                // Ensure that no more code runs by returning out of the Main method
-                return;
+                    // Log the error
+                    Log(e + " | ERROR THROWN");
+                    // Save the logs to the log file
+                    Log();
+
+                    // Exit the program
+                    Exit();
+                    // Ensure that no more code runs by returning out of the Main method
+                    return;
+                }
             }
         }
 
@@ -304,7 +313,8 @@ namespace JWap
                 if (processComplete)
                 {
                     // Aborts the current thread
-                    Thread.CurrentThread.Abort();
+                    // Thread.Abort() : no longer used on this platform
+                    // Thread.CurrentThread.Abort();
                     // Makes sure that thread isn't running by exiting out of function
                     return;
                 }
@@ -329,7 +339,7 @@ namespace JWap
                 if (processComplete)
                 {
                     // Aborts the current thread
-                    Thread.CurrentThread.Abort();
+                    // Thread.CurrentThread.Abort(); : no longer used on this platform
                     // Makes sure that thread isn't running by exiting out of function
                     return;
                 }
