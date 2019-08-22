@@ -11,13 +11,13 @@ using System.IO;
 // Error tracking
 using Sentry;
 
-/* 
+/*
  * Author: Josh Sawyer
  * Date Last Edited: 23/06/19 @ 15:58
- * 
+ *
  * Project Definition: A web mapper and
  * SEO reporter.
- * 
+ *
  * TODO print out SEO report
  * TODO end analysis early option?
 */
@@ -110,7 +110,7 @@ namespace SiteMSR
             using (SentrySdk.Init("https://6491815aab3848898a5e01f97b17f5a8@sentry.io/1537888"))
             {
                 // Throws a test error to make sure that error tracking is working
-                //throw new System.Exception("Shane Conway");
+                //throw new System.Exception("test");
 
                 // Used to catch any errors and log them
                 try
@@ -383,7 +383,7 @@ namespace SiteMSR
             // If the init parameter is true do this
             if (init)
             {
-                // If a '/' is present at the end or start of the string, remove it 
+                // If a '/' is present at the end or start of the string, remove it
                 if (url[url.Length - 1] == '/')
                 {
                     url = url.Remove(url.Length - 1);
@@ -445,7 +445,7 @@ namespace SiteMSR
         {
             // Get the raw HTML
             string html = GetHtml("https://" + url);
-            // If there is no HTML to get 
+            // If there is no HTML to get
             if (html == null)
             {
                 return;
@@ -581,7 +581,7 @@ namespace SiteMSR
                     break;
                 }
                 // If URL has the structure of a redirected page, e.g. website.com/mypage/, its a page,
-                else if (url[i] == '/' 
+                else if (url[i] == '/'
                     || url[i] == '\\')
                 {
                     // Document that the current URL is a page
@@ -770,7 +770,7 @@ namespace SiteMSR
             textToSave += baseUrl + "\n";
             textToSave += "----------\n\n";
 
-            // Add the pages 
+            // Add the pages
             textToSave += "Pages / Page Locations\n";
             foreach (Url curUrl in Sort(urls.ToArray()))
                 textToSave += "    " + curUrl.value + "\n";
@@ -778,7 +778,7 @@ namespace SiteMSR
             // Add divider
             textToSave += "-\n";
 
-            // Add the resources 
+            // Add the resources
             textToSave += "Resources\n";
             foreach (string curResource in Sort(resources.ToArray()))
                 textToSave += "    " + curResource + "\n";
@@ -786,7 +786,7 @@ namespace SiteMSR
             // Add divider
             textToSave += "-\n";
 
-            // Add the external links 
+            // Add the external links
             textToSave += "Externals\n";
             foreach (string curExt in Sort(externals.ToArray()))
                 textToSave += "    " + curExt + "\n";
@@ -799,7 +799,7 @@ namespace SiteMSR
 
             // Generate the SEO report
             SEOReport();
-            // Add the SEO Report 
+            // Add the SEO Report
             textToSave += "\n\n\n***SEO Report***\n";
             foreach (string curErr in seoErrors.ToArray())
                 textToSave += "    " + curErr + "\n";
